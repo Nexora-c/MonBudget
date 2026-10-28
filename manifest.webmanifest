@@ -1,0 +1,15 @@
+{
+  "name": "MonBudget — finances personnelles",
+  "short_name": "MonBudget",
+  "description": "Suivez vos revenus, dépenses et budgets mensuels gratuitement.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7f5",
+  "theme_color": "#103b35",
+  "icons": [
+    {"src":"./icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"./icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}
