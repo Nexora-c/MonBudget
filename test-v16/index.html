@@ -11,7 +11,7 @@
   
   
   
-  <link rel="stylesheet" href="./styles.css?v=1.6.0">
+  <link rel="stylesheet" href="./styles.css?v=1.6.1">
   <title>Mon Budget Digital — v1.6 test</title>
   <script src="./app.js?v=1.6.0" defer></script>
 </head>
@@ -27,10 +27,18 @@
         <div><p class="eyebrow">VUE D’ENSEMBLE</p><h1>Mon tableau de bord</h1></div>
         <label class="month-wrap">Mois <input id="month" type="month" aria-label="Mois à afficher"></label>
       </section>
-      <section class="hero" aria-label="Solde mensuel">
-        <div class="hero-label">Disponible après épargne</div><div class="hero-value" id="availableBalance">0,00 MAD</div><div class="hero-detail">Solde avant épargne : <strong id="balance">0,00 MAD</strong> <span aria-hidden="true">·</span> Épargne réservée : <strong id="reservedSavings">0,00 MAD</strong></div>
-        <div class="hero-pair"><div><span>↗ Revenus</span><strong id="incomeTotal">0,00 MAD</strong></div><div><span>↘ Dépenses</span><strong id="expenseTotal">0,00 MAD</strong></div></div>
-      </section>
+      <section class="hero mbd-cards" aria-label="Solde mensuel">
+  <div class="mbd-primary-card">
+    <span class="mbd-card-icon" aria-hidden="true">▣</span>
+    <div class="mbd-card-content"><div class="hero-label">Disponible après épargne</div><div class="hero-value" id="availableBalance">0,00 MAD</div></div>
+  </div>
+  <div class="mbd-card-grid">
+    <div class="mbd-stat-card"><span class="mbd-card-icon balance-icon" aria-hidden="true">◉</span><div class="mbd-card-content"><span>Solde avant épargne</span><strong id="balance">0,00 MAD</strong></div></div>
+    <div class="mbd-stat-card"><span class="mbd-card-icon saving-icon" aria-hidden="true">♧</span><div class="mbd-card-content"><span>Épargne réservée</span><strong id="reservedSavings">0,00 MAD</strong></div></div>
+    <div class="mbd-stat-card"><span class="mbd-card-icon income-icon" aria-hidden="true">↗</span><div class="mbd-card-content"><span>Revenus</span><strong id="incomeTotal">0,00 MAD</strong></div></div>
+    <div class="mbd-stat-card"><span class="mbd-card-icon expense-icon" aria-hidden="true">↘</span><div class="mbd-card-content"><span>Dépenses</span><strong id="expenseTotal">0,00 MAD</strong></div></div>
+  </div>
+</section>
       <div class="section-title"><h2>Ajouter une opération</h2></div>
       <form id="transactionForm" class="panel form-grid">
         <div class="segmented" role="group" aria-label="Type d'opération">
