@@ -29,7 +29,7 @@ function openEditModal(title, fields, onSave, note=''){
  const heading=element('div','edit-heading');heading.append(element('h2','',title));const x=element('button','edit-close','×');x.type='button';x.setAttribute('aria-label','Fermer');heading.append(x);form.append(heading);
  if(note)form.append(element('p','edit-note',note));
  const controls={};
- for(const f of fields){const label=element('label','edit-field',f.label);let input;if(f.options){input=document.createElement('select');for(const value of f.options){const opt=document.createElement('option');opt.value=value;opt.textContent=value;input.append(opt);}}else{input=document.createElement('input');input.type=f.type||'text';if(f.min!==undefined)input.min=f.min;if(f.max!==undefined)input.max=f.max;if(f.step!==undefined)input.step=f.step;if(f.maxLength)input.maxLength=f.maxLength;}input.value=String(f.value??'');input.required=f.required!==false;controls[f.key]=input;label.append(input);form.append(label);}
+ for(const f of fields){const label=element('label','edit-field',f.label);let input;if(f.options){input=document.createElement('select');for(const value of f.options){const opt=document.createElement('option');opt.value=typeof value==='string'?value:value.value;opt.textContent=typeof value==='string'?value:value.label;input.append(opt);}}else{input=document.createElement('input');input.type=f.type||'text';if(f.min!==undefined)input.min=f.min;if(f.max!==undefined)input.max=f.max;if(f.step!==undefined)input.step=f.step;if(f.maxLength)input.maxLength=f.maxLength;}input.value=String(f.value??'');input.required=f.required!==false;controls[f.key]=input;label.append(input);form.append(label);}
  const error=element('p','edit-error');error.setAttribute('role','alert');form.append(error);
  const buttons=element('div','edit-actions'),cancel=element('button','secondary','Annuler'),submit=element('button','primary','Enregistrer');cancel.type='button';submit.type='submit';buttons.append(cancel,submit);form.append(buttons);dialog.append(form);shade.append(dialog);document.body.append(shade);
  const origin=document.activeElement;
@@ -42,7 +42,7 @@ function validPositiveMoney(text){if(!text.trim())return null;const n=Number(tex
 function editTransaction(id){
  const t=state.transactions.find(x=>x.id===id);if(!t)return;
  openEditModal('Modifier une opération',[
- {key:'type',label:'Type',value:t.type,options:['expense','income']},
+ {key:'type',label:'Type',value:t.type,options:[{value:'expense',label:'Dépense'},{value:'income',label:'Revenu'}]},
  {key:'amount',label:'Montant (MAD)',value:t.amount,type:'number',min:.01,step:.01},
  {key:'category',label:'Catégorie',value:t.category,options:[...new Set([...categoriesFor('expense'),...categoriesFor('income'),t.category])]},
  {key:'description',label:'Description',value:t.description,required:false,maxLength:100},
