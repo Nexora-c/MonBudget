@@ -12,7 +12,7 @@
   <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="stylesheet" href="./styles.css">
-  <title>MonBudget — finances personnelles</title>
+  <title>MonBudget — finances personnelles v1.2</title>
   <script src="./app.js" defer></script>
 </head>
 <body>
@@ -49,6 +49,19 @@
         <div class="panel"><div class="section-title compact"><h2>Budget mensuel</h2></div>
           <form id="budgetForm" class="budget-form"><label>Plafond des dépenses (MAD)<input id="budgetAmount" min="0" step="0.01" type="number" inputmode="decimal" placeholder="Ex. 6000"></label><button type="submit" class="secondary">Enregistrer</button></form>
           <div id="budgetStatus" class="budget-status"></div>
+        </div>
+      </section>
+      <section class="two-cols improvements">
+        <div class="panel"><div class="section-title compact"><h2>Objectif d’épargne</h2></div>
+          <p class="recurring-help">Indiquez votre objectif et le montant réellement mis de côté pour le mois. Ces montants sont un suivi indicatif : ils ne sont pas déduits du solde et ne créent pas de transaction.</p>
+          <form id="savingsForm" class="budget-form">
+            <label>Objectif mensuel (MAD)<input id="savingsGoal" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 2000"></label>
+            <label>Montant mis de côté (MAD)<input id="savingsSaved" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 800"></label>
+            <button class="secondary" type="submit">Enregistrer mon épargne</button>
+          </form><div id="savingsStatus" class="budget-status" aria-live="polite"></div>
+        </div>
+        <div class="panel"><div class="section-title compact"><h2>Statistiques du mois</h2></div>
+          <div id="monthlyStats" class="monthly-stats" aria-live="polite"></div>
         </div>
       </section>
       <section class="panel recurring-panel" aria-label="Charges fixes mensuelles">
