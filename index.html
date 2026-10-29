@@ -12,7 +12,7 @@
   <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="stylesheet" href="./styles.css">
-  <title>MonBudget — finances personnelles v1.3</title>
+  <title>MonBudget — finances personnelles v1.4</title>
   <script src="./app.js" defer></script>
 </head>
 <body>
@@ -64,6 +64,7 @@
           <div id="monthlyStats" class="monthly-stats" aria-live="polite"></div>
         </div>
       </section>
+      <section class="panel" aria-label="Catégories personnalisées"><div class="section-title compact"><h2>Mes catégories personnalisées</h2></div><p class="recurring-help">Ajoutez une catégorie de revenus ou de dépenses. Retirer une catégorie ne supprime jamais les opérations déjà enregistrées.</p><form id="customCategoryForm" class="budget-form"><label>Type<select id="customCategoryType"><option value="expense">Dépense</option><option value="income">Revenu</option></select></label><label>Nom de la catégorie<input id="customCategoryName" maxlength="60" required placeholder="Ex. Animaux, Freelance"></label><button class="secondary" type="submit">Ajouter cette catégorie</button></form><div id="customCategoriesList"></div></section>
       <section class="panel recurring-panel" aria-label="Charges fixes mensuelles">
         <div class="section-title compact"><h2>Charges fixes mensuelles</h2><span class="count">Loyer, internet, crédits...</span></div>
         <p class="recurring-help">Les charges planifiées ne sont pas déduites du solde tant que vous ne les marquez pas comme payées.</p>
