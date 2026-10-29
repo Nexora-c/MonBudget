@@ -51,6 +51,19 @@
           <div id="budgetStatus" class="budget-status"></div>
         </div>
       </section>
+      <section class="panel recurring-panel" aria-label="Charges fixes mensuelles">
+        <div class="section-title compact"><h2>Charges fixes mensuelles</h2><span class="count">Loyer, internet, crédits...</span></div>
+        <p class="recurring-help">Les charges planifiées ne sont pas déduites du solde tant que vous ne les marquez pas comme payées.</p>
+        <form id="recurringForm" class="form-grid">
+          <label>Nom de la charge<input id="recurringName" required maxlength="80" placeholder="Ex. Loyer"></label>
+          <label>Montant (MAD)<input id="recurringAmount" type="number" inputmode="decimal" step="0.01" min="0.01" required placeholder="Ex. 2800"></label>
+          <label>Catégorie<select id="recurringCategory"></select></label>
+          <label>Jour d'échéance (1 à 31)<input id="recurringDay" type="number" min="1" max="31" value="1" required></label>
+          <button class="primary" type="submit">+ Ajouter la charge fixe</button>
+        </form>
+        <p id="recurringMessage" role="status" aria-live="polite"></p>
+        <div id="recurringList" class="recurring-list"></div>
+      </section>
       <section class="panel transactions-panel"><div class="section-title compact"><h2>Opérations du mois</h2><span id="count" class="count"></span></div>
         <div id="transactions" class="transactions"></div>
       </section>
