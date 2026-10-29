@@ -12,7 +12,7 @@
   <link rel="icon" href="./icons/icon-192.png" sizes="192x192">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="stylesheet" href="./styles.css">
-  <title>MonBudget — finances personnelles v1.2</title>
+  <title>MonBudget — finances personnelles v1.3</title>
   <script src="./app.js" defer></script>
 </head>
 <body>
@@ -28,7 +28,7 @@
         <label class="month-wrap">Mois <input id="month" type="month" aria-label="Mois à afficher"></label>
       </section>
       <section class="hero" aria-label="Solde mensuel">
-        <div class="hero-label">Solde du mois</div><div class="hero-value" id="balance">0,00 MAD</div>
+        <div class="hero-label">Disponible après épargne</div><div class="hero-value" id="availableBalance">0,00 MAD</div><div class="hero-detail">Solde avant épargne : <strong id="balance">0,00 MAD</strong> <span aria-hidden="true">·</span> Épargne réservée : <strong id="reservedSavings">0,00 MAD</strong></div>
         <div class="hero-pair"><div><span>↗ Revenus</span><strong id="incomeTotal">0,00 MAD</strong></div><div><span>↘ Dépenses</span><strong id="expenseTotal">0,00 MAD</strong></div></div>
       </section>
       <div class="section-title"><h2>Ajouter une opération</h2></div>
@@ -53,12 +53,12 @@
       </section>
       <section class="two-cols improvements">
         <div class="panel"><div class="section-title compact"><h2>Objectif d’épargne</h2></div>
-          <p class="recurring-help">Indiquez votre objectif et le montant réellement mis de côté pour le mois. Ces montants sont un suivi indicatif : ils ne sont pas déduits du solde et ne créent pas de transaction.</p>
+          <p class="recurring-help">Indiquez votre objectif et le montant réservé ce mois-ci. Cette épargne est retirée du montant disponible affiché en haut, sans créer de dépense ni changer le solde comptable ou le budget de dépenses.</p>
           <form id="savingsForm" class="budget-form">
             <label>Objectif mensuel (MAD)<input id="savingsGoal" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 2000"></label>
             <label>Montant mis de côté (MAD)<input id="savingsSaved" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 800"></label>
             <button class="secondary" type="submit">Enregistrer mon épargne</button>
-          </form><div id="savingsStatus" class="budget-status" aria-live="polite"></div>
+          </form><p id="savingsMessage" class="form-message" role="status" aria-live="polite"></p><div id="savingsStatus" class="budget-status" aria-live="polite"></div>
         </div>
         <div class="panel"><div class="section-title compact"><h2>Statistiques du mois</h2></div>
           <div id="monthlyStats" class="monthly-stats" aria-live="polite"></div>
