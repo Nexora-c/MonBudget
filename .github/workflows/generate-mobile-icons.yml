@@ -1,31 +1,35 @@
-name: Generate mobile app icons
+name: Generate exact mobile app icons
 on:
   push:
     paths:
-      - 'logo.svg'
+      - 'branding/logo-original.png'
       - '.github/workflows/generate-mobile-icons.yml'
   workflow_dispatch:
 permissions:
   contents: write
 jobs:
-  build-icons:
+  generate:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install PNG renderer
-        run: python -m pip install --disable-pip-version-check cairosvg
-      - name: Render Android and iPhone icons
+      - name: Check original approved design
+        run: test -f branding/logo-original.png
+      - name: Generate resized icons without redesign
         run: |
+          python -m pip install --disable-pip-version-check Pillow
           python - <<'PY'
-          import cairosvg
-          for size in (180, 192, 512):
-              output = f'icons/icon-{size}.png' if size != 180 else 'icons/apple-touch-icon.png'
-              cairosvg.svg2png(url='logo.svg', write_to=output, output_width=size, output_height=size)
-              print(output)
+          from PIL import Image
+          from pathlib import Path
+          src=Image.open('branding/logo-original.png').convert('RGB')
+          Path('icons').mkdir(exist_ok=True)
+          for size,name in [(180,'apple-touch-icon.png'),(192,'icon-192.png'),(512,'icon-512.png')]:
+              out=src.resize((size,size),Image.Resampling.LANCZOS)
+              out.save(Path('icons')/name,optimize=True)
           PY
-      - name: Commit generated icons
+      - name: Commit mobile icons
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add icons/icon-192.png icons/icon-512.png icons/apple-touch-icon.png
-          git diff --cached --quiet || (git commit -m "Update Android and iOS PWA icons to full MBD logo" && git push)
+          git diff --cached --quiet || (git commit -m "Use original approved Mon Budget DIGITAL icon" && git push)
