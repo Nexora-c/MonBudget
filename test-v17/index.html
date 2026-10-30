@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#e9f5ff"><title>Mon Budget DIGITAL — Prototype v1.7</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#142f50;background:#eef5fc}*{box-sizing:border-box}body{margin:0}main{max-width:780px;margin:auto;padding:20px 14px 65px}.top{display:flex;align-items:center;gap:12px;margin:5px 0 16px}.logo{width:54px;height:54px;object-fit:cover;border-radius:15px}h1{font-size:19px;margin:0}h2{font-size:17px;margin:0 0 14px}.sub{font-size:12px;color:#617b96}.pill{display:inline-block;background:#d9ebfa;color:#235e95;border-radius:22px;padding:6px 10px;font-size:12px;font-weight:700;margin-top:7px}.note{background:#fff8e8;border:1px solid #eedcb1;border-radius:14px;padding:12px;font-size:13px;line-height:1.5;margin-bottom:18px}.card{background:white;border:1px solid #dbe7f4;border-radius:19px;padding:18px;margin:14px 0;box-shadow:0 4px 15px #27496a0b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#f2f8fd;border-radius:14px;padding:14px}.metric small{display:block;color:#647e99;font-size:12px;margin-bottom:7px}.metric strong{display:block;font-size:19px}.hero{background:linear-gradient(135deg,#236eb0,#70b5e6);color:white}.hero small{color:#deefff}.hero strong{font-size:32px}.muted{color:#637f98;font-size:13px;line-height:1.45}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.field{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}input{width:100%;padding:12px;border-radius:11px;border:1px solid #c4d7e9;font-size:16px;color:#173754;background:#fcfdff}input:focus{outline:2px solid #6eaee1}button{border:0;border-radius:12px;background:#236eb0;color:white;font-weight:700;padding:12px 16px;cursor:pointer}button.secondary{background:#e6f1fa;color:#246293}.status{border-radius:12px;padding:12px;line-height:1.5;font-size:14px}.good{background:#e5f6ed;color:#135b3f}.warn{background:#fff3dc;color:#88530f}.bad{background:#fde8e8;color:#9f3034}.tag{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#4e87b6}ul{padding-left:20px;line-height:1.65}.actions{display:flex;flex-wrap:wrap;gap:8px}.foot{text-align:center;font-size:12px;color:#7890a7;margin:30px 0}@media(min-width:610px){.fields{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}}@media(max-width:350px){.grid{grid-template-columns:1fr}.metric strong{font-size:18px}}
+</style></head>
+<body><main><div class="top"><img class="logo" src="../icons/icon-192.png" alt="Logo Mon Budget DIGITAL"><div><h1>Mon Budget <span style="color:#2784c8">DIGITAL</span></h1><div class="sub">Laboratoire v1.7 · Mon Budget Intelligent</div><span class="pill">Prototype isolé · données fictives</span></div></div>
+<div class="note"><strong>🔒 Tes données personnelles sont protégées.</strong> Cette page de démonstration ne lit ni ne modifie les opérations de la v1.6. Aucun montant n'est enregistré sur le téléphone. Les chiffres ci-dessous sont fictifs.</div>
+<div class="card hero"><small>Disponible après charges et épargne</small><div><strong id="available">5 200 MAD</strong></div><small>Solde de référence − charges restantes − épargne réservée</small></div>
+<div class="grid"><div class="metric"><small>📅 Fin de mois prévue</small><strong id="forecast">2 400 MAD</strong></div><div class="metric"><small>🛒 Après achat simulé</small><strong id="after">1 200 MAD</strong></div></div>
+<section class="card"><div class="row"><h2>⚙️ Scénario de test</h2><button class="secondary" id="reset">Réinitialiser</button></div><p class="muted">Modifie un montant : toutes les prévisions et alertes s'actualisent immédiatement.</p><div class="fields">
+<label><span class="field">Solde de référence (MAD)</span><input id="balance" type="number" min="0" step="10" value="9700" inputmode="decimal"></label>
+<label><span class="field">Charges fixes restant à payer (MAD)</span><input id="fixed" type="number" min="0" step="10" value="3000" inputmode="decimal"></label>
+<label><span class="field">Épargne encore à réserver (MAD)</span><input id="savings" type="number" min="0" step="10" value="1500" inputmode="decimal"></label>
+<label><span class="field">Dépenses variables restantes prévues (MAD)</span><input id="variable" type="number" min="0" step="10" value="2800" inputmode="decimal"></label>
+<label><span class="field">Revenus futurs confirmés (MAD)</span><input id="income" type="number" min="0" step="10" value="0" inputmode="decimal"></label>
+<label><span class="field">Réserve de sécurité souhaitée (MAD)</span><input id="reserve" type="number" min="0" step="10" value="1000" inputmode="decimal"></label>
+</div></section>
+<section class="card"><h2>📈 Prévision prudente</h2><div id="forecastStatus" class="status good"></div><p class="muted">La projection est calculée sur les dépenses futures saisies. Les revenus incertains ne sont pas inclus. Dans ce prototype, aucune analyse automatique d'historique n'est réalisée.</p></section>
+<section class="card"><h2>🛍️ Simulateur « Puis-je acheter ? »</h2><label><span class="field">Prix de l'achat envisagé (MAD)</span><input id="purchase" type="number" min="0" step="10" value="1200" inputmode="decimal"></label><div style="margin-top:14px" id="purchaseStatus" class="status good"></div><p class="muted">Simulation seulement : aucun achat n'est ajouté à tes opérations.</p></section>
+<section class="card"><h2>🔔 Alertes intelligentes</h2><div id="alerts" aria-live="polite"></div></section>
+<section class="card"><h2>✨ Aperçu du futur copilote IA</h2><div class="tag">Recommandation locale — sans connexion à une IA</div><p id="coach" style="line-height:1.6"></p><p class="muted">La future IA expliquera ces résultats. Les calculs resteront effectués par un moteur financier déterministe.</p></section>
+<section class="card"><h2>✅ Validation du prototype</h2><p class="muted">À vérifier : montants corrects, réaction aux valeurs négatives, seuil de réserve configurable, aucune double déduction des charges déjà réglées lors de la future connexion aux opérations, absence d'écriture dans l'application officielle.</p><div class="actions"><button id="exampleRisk" class="secondary">Tester une alerte</button><button id="exampleGood" class="secondary">Tester un scénario favorable</button></div></section>
+<div class="foot">Prototype v1.7 autonome · sans accès à monbudget-v1 · aucune synchronisation · ne remplace pas l'application officielle</div>
+</main><script>
+'use strict';
+const ids=['balance','fixed','savings','variable','income','reserve','purchase'];
+const preset=[9700,3000,1500,2800,0,1000,1200];
+const el=x=>document.getElementById(x);
+const money=n=>new Intl.NumberFormat('fr-MA',{minimumFractionDigits:0,maximumFractionDigits:0}).format(n)+' MAD';
+function val(id){const x=Number(el(id).value);return Number.isFinite(x)?Math.max(0,x):0;}
+function status(node,cls,html){node.className='status '+cls;node.textContent=html;}
+function refresh(){
+ const [balance,fixed,savings,variable,income,reserve,purchase]=ids.map(val);
+ const available=balance+income-fixed-savings;
+ const forecast=available-variable;
+ const after=forecast-purchase;
+ el('available').textContent=money(available);el('forecast').textContent=money(forecast);el('after').textContent=money(after);
+ const cls=n=>n<0?'bad':n<reserve?'warn':'good';
+ status(el('forecastStatus'),cls(forecast),forecast<0?'⚠️ Prévision négative : il manquerait '+money(-forecast)+' pour couvrir les dépenses planifiées.':forecast<reserve?'⚠️ Marge faible : '+money(forecast)+' prévus, en dessous de ta réserve de '+money(reserve)+'.':'✓ Prévision positive : '+money(forecast)+' resteraient après dépenses et épargne prévues.');
+ status(el('purchaseStatus'),cls(after),after<0?'⛔ Achat risqué : déficit simulé de '+money(-after)+'.':after<reserve?'⚠️ Prudence : après cet achat, il resterait '+money(after)+', sous la réserve de '+money(reserve)+'.':'✓ Simulation favorable : '+money(after)+' resteraient après l’achat.');
+ const a=[];
+ if(available<0)a.push('🔴 Les charges et l’épargne à réserver dépassent les fonds disponibles.');
+ if(forecast<0)a.push('🔴 Risque de déficit de '+money(-forecast)+' à la fin du mois.');
+ else if(forecast<reserve)a.push('🟠 La marge de fin de mois est inférieure à ta réserve de '+money(reserve)+'.');
+ if(after<0)a.push('🔴 L’achat envisagé ferait passer ton budget sous zéro.');
+ else if(after<reserve)a.push('🟠 L’achat réduirait ta marge en dessous de la réserve choisie.');
+ if(!a.length)a.push('🟢 Pas d’alerte majeure dans ce scénario fictif.');
+ const list=document.createElement('ul');for(const s of a){const li=document.createElement('li');li.textContent=s;list.append(li);}el('alerts').replaceChildren(list);
+ el('coach').textContent=after<0?'Je te conseille de reporter cet achat ou de réduire les dépenses prévues. Le scénario ferait apparaître un déficit de '+money(-after)+'.':after<reserve?'Cet achat laisserait '+money(after)+'. Pour préserver ta réserve de '+money(reserve)+', tu pourrais choisir un achat moins coûteux ou le reporter.':'Selon les hypothèses saisies, cet achat laisserait '+money(after)+'. Tu conserverais la réserve de sécurité que tu as choisie.';
+}
+for(const id of ids)el(id).addEventListener('input',refresh);
+function apply(p){ids.forEach((id,i)=>el(id).value=p[i]);refresh()}
+el('reset').addEventListener('click',()=>apply(preset));
+el('exampleRisk').addEventListener('click',()=>apply([5000,3000,1000,2000,0,1000,1500]));
+el('exampleGood').addEventListener('click',()=>apply([12000,2000,1500,2200,0,1000,900]));
+refresh();
+</script></body></html>
