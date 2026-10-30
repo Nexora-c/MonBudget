@@ -7,6 +7,7 @@
 <div class="note"><strong>🔒 Tes données personnelles sont protégées.</strong> Cette page de démonstration ne lit ni ne modifie les opérations de la v1.6. Aucun montant n'est enregistré sur le téléphone. Les chiffres ci-dessous sont fictifs.</div>
 <div class="card hero"><small>Disponible après charges et épargne</small><div><strong id="available">5 200 MAD</strong></div><small>Solde de référence − charges restantes − épargne réservée</small></div>
 <div class="grid"><div class="metric"><small>📅 Fin de mois prévue</small><strong id="forecast">2 400 MAD</strong></div><div class="metric"><small>🛒 Après achat simulé</small><strong id="after">1 200 MAD</strong></div></div>
+<section class="card" id="autoDemo"><div class="row"><h2>🧠 Analyse automatique</h2><span class="pill">Démonstration</span></div><p class="muted">Un jeu d'opérations inventées simule les données de ton budget : revenus, dépenses et charges fixes. Le système calcule une estimation prudente, sans accéder à tes informations réelles.</p><div class="actions"><button id="autoFill">Analyser les opérations fictives</button><button class="secondary" id="showDemo">Voir le détail des données</button></div><div id="demoDetail" hidden style="margin-top:12px" class="muted"></div><div id="autoResult" class="muted" aria-live="polite" style="margin-top:12px">Clique sur « Analyser » pour alimenter le simulateur automatiquement.</div></section>
 <section class="card"><div class="row"><h2>⚙️ Scénario de test</h2><button class="secondary" id="reset">Réinitialiser</button></div><p class="muted">Modifie un montant : toutes les prévisions et alertes s'actualisent immédiatement.</p><div class="fields">
 <label><span class="field">Solde de référence (MAD)</span><input id="balance" type="number" min="0" step="10" value="9700" inputmode="decimal"></label>
 <label><span class="field">Charges fixes restant à payer (MAD)</span><input id="fixed" type="number" min="0" step="10" value="3000" inputmode="decimal"></label>
@@ -53,5 +54,56 @@ function apply(p){ids.forEach((id,i)=>el(id).value=p[i]);refresh()}
 el('reset').addEventListener('click',()=>apply(preset));
 el('exampleRisk').addEventListener('click',()=>apply([5000,3000,1000,2000,0,1000,1500]));
 el('exampleGood').addEventListener('click',()=>apply([12000,2000,1500,2200,0,1000,900]));
+
+// Toutes les données suivantes sont fictives, codées dans cette page de test.
+// Un calcul prudent prend le plus grand entre l'historique ajusté et le rythme du mois.
+const demo={
+ referenceDate:'2026-10-20',daysInMonth:31,openingBalance:9000,
+ current:[
+ {date:'2026-10-02',type:'income',category:'Salaire',amount:2000},
+ {date:'2026-10-04',type:'expense',category:'Alimentation',amount:500},
+ {date:'2026-10-09',type:'expense',category:'Transport',amount:300},
+ {date:'2026-10-15',type:'expense',category:'Loisirs',amount:500}
+ ],
+ history:[
+ {category:'Alimentation',month:'2026-07',amount:1400},{category:'Transport',month:'2026-07',amount:620},{category:'Loisirs',month:'2026-07',amount:720},
+ {category:'Alimentation',month:'2026-08',amount:1500},{category:'Transport',month:'2026-08',amount:650},{category:'Loisirs',month:'2026-08',amount:750},
+ {category:'Alimentation',month:'2026-09',amount:1600},{category:'Transport',month:'2026-09',amount:700},{category:'Loisirs',month:'2026-09',amount:800}
+ ],
+ recurring:[
+ {name:'Loyer',amount:2200,paid:false},{name:'Internet',amount:300,paid:false},
+ {name:'Electricité',amount:500,paid:false},{name:'Abonnement déjà payé',amount:180,paid:true}
+ ],
+ savingsToReserve:1500,confirmedFutureIncome:0,securityReserve:1000
+};
+let demoActive=false;
+function analyzeDemo(){
+ const received=demo.current.filter(x=>x.type==='income').reduce((a,x)=>a+x.amount,0);
+ const spent=demo.current.filter(x=>x.type==='expense').reduce((a,x)=>a+x.amount,0);
+ const balance=demo.openingBalance+received-spent;
+ const fixed=demo.recurring.filter(x=>!x.paid).reduce((a,x)=>a+x.amount,0);
+ const day=Number(demo.referenceDate.slice(-2));
+ const daysRemaining=demo.daysInMonth-day;
+ const cats=[...new Set(demo.history.map(x=>x.category))];
+ const projections=cats.map(cat=>{
+   const previous=demo.history.filter(x=>x.category===cat);
+   const historyAverage=previous.reduce((a,x)=>a+x.amount,0)/3;
+   const current=demo.current.filter(x=>x.type==='expense'&&x.category===cat).reduce((a,x)=>a+x.amount,0);
+   const estimatedRemaining=Math.round(Math.max(historyAverage*daysRemaining/demo.daysInMonth,current/Math.max(1,day)*daysRemaining));
+   return {cat,current,historyAverage,estimatedRemaining};
+ });
+ const remaining=projections.reduce((a,x)=>a+x.estimatedRemaining,0);
+ apply([balance,fixed,demo.savingsToReserve,remaining,demo.confirmedFutureIncome,demo.securityReserve,val('purchase')]);
+ demoActive=true;
+ const top=[...projections].sort((a,b)=>b.estimatedRemaining-a.estimatedRemaining)[0];
+ el('autoResult').textContent='Calcul automatique : solde '+money(balance)+' (9 000 MAD de départ + 2 000 MAD de revenus − 1 300 MAD de dépenses), charges non réglées '+money(fixed)+', dépenses variables futures estimées '+money(remaining)+'. Catégorie à surveiller : '+top.cat+' ('+money(top.estimatedRemaining)+' restants prévus). Les 180 MAD de charge déjà payée ne sont pas déduits une seconde fois.';
+ const details=document.createElement('ul');
+ for(const p of projections){const li=document.createElement('li');li.textContent=p.cat+' : '+money(p.current)+' déjà dépensés ; historique moyen '+money(p.historyAverage)+'/mois ; reste prévu '+money(p.estimatedRemaining);details.append(li)}
+ const li=document.createElement('li');li.textContent='Charges en attente : Loyer 2 200 MAD, Internet 300 MAD, Electricité 500 MAD. Abonnement 180 MAD déjà réglé : exclu des charges futures.';details.append(li);
+ el('demoDetail').replaceChildren(details);
+}
+el('autoFill').addEventListener('click',analyzeDemo);
+el('showDemo').addEventListener('click',()=>{el('demoDetail').hidden=!el('demoDetail').hidden;});
+
 refresh();
 </script></body></html>
