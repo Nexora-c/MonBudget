@@ -2,7 +2,7 @@ name: Generate exact mobile app icons
 on:
   push:
     paths:
-      - 'branding/logo-original.png'
+      - 'square_rounded_app_icon_style_graphic_clean_moder.png'
       - '.github/workflows/generate-mobile-icons.yml'
   workflow_dispatch:
 permissions:
@@ -14,14 +14,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check original approved design
-        run: test -f branding/logo-original.png
+        run: test -f square_rounded_app_icon_style_graphic_clean_moder.png
       - name: Generate resized icons without redesign
         run: |
           python -m pip install --disable-pip-version-check Pillow
           python - <<'PY'
           from PIL import Image
           from pathlib import Path
-          src=Image.open('branding/logo-original.png').convert('RGB')
+          src=Image.open('square_rounded_app_icon_style_graphic_clean_moder.png').convert('RGB')
           Path('icons').mkdir(exist_ok=True)
           for size,name in [(180,'apple-touch-icon.png'),(192,'icon-192.png'),(512,'icon-512.png')]:
               out=src.resize((size,size),Image.Resampling.LANCZOS)
