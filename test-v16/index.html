@@ -11,7 +11,7 @@
   
   
   
-  <link rel="stylesheet" href="./styles.css?v=1.6.4">
+  <link rel="stylesheet" href="./styles.css?v=1.6.5">
   <title>Mon Budget Digital — v1.6 test</title>
   <script src="./app.js?v=1.6.0" defer></script>
 </head>
@@ -73,7 +73,7 @@
         </div>
       </section>
       <section class="panel" aria-label="Catégories personnalisées"><div class="section-title compact"><h2>Mes catégories personnalisées</h2></div><p class="recurring-help">Ajoutez une catégorie de revenus ou de dépenses. Retirer une catégorie ne supprime jamais les opérations déjà enregistrées.</p><form id="customCategoryForm" class="budget-form"><label>Type<select id="customCategoryType"><option value="expense">Dépense</option><option value="income">Revenu</option></select></label><label>Nom de la catégorie<input id="customCategoryName" maxlength="60" required placeholder="Ex. Animaux, Freelance"></label><button class="secondary" type="submit">Ajouter cette catégorie</button></form><div id="customCategoriesList"></div></section>
-      <section class="panel recurring-panel" aria-label="Charges fixes mensuelles">
+      <section class="panel recurring-panel mbd-list-panel" aria-label="Charges fixes mensuelles">
         <div class="section-title compact"><h2>Charges fixes mensuelles</h2><span class="count">Loyer, internet, crédits...</span></div>
         <p class="recurring-help">Les charges planifiées ne sont pas déduites du solde tant que vous ne les marquez pas comme payées.</p>
         <form id="recurringForm" class="form-grid">
@@ -86,7 +86,7 @@
         <p id="recurringMessage" role="status" aria-live="polite"></p>
         <div id="recurringList" class="recurring-list"></div>
       </section>
-      <section class="panel transactions-panel"><div class="section-title compact"><h2>Opérations du mois</h2><span id="count" class="count"></span></div>
+      <section class="panel transactions-panel mbd-list-panel"><div class="section-title compact"><h2>Opérations du mois</h2><span id="count" class="count"></span></div>
         <div id="transactions" class="transactions"></div>
       </section>
       <section class="panel settings"><div><h2>Mes données</h2><p>Les informations restent dans ce navigateur sur cet appareil. Exportez-les régulièrement pour conserver une sauvegarde.</p></div>
