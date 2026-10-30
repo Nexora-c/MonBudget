@@ -1,6 +1,6 @@
 {
   "name": "Mon Budget Digital — finances personnelles",
-  "short_name": "Mon Budget Digital",
+  "short_name": "Mon Budget DIGITAL",
   "description": "Gérez vos revenus, dépenses, charges fixes et votre épargne.",
   "lang": "fr",
   "start_url": "./",
@@ -10,7 +10,7 @@
   "theme_color": "#f5fafe",
   "icons": [
     {
-      "src": "./logo.svg",
+      "src": "./logo.svg?v=2",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
