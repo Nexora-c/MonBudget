@@ -209,18 +209,20 @@ function answerRealQuestion(kind){
  const x=realSnapshot;if(!x)return null;
  const caveat=' Analyse basée uniquement sur les opérations du mois '+x.month+' ; ce n’est pas un solde bancaire cumulatif.';
  switch(kind){
+ case 'bilan':return 'Bilan du mois '+x.month+' : revenus '+realMoney(x.income)+', dépenses '+realMoney(x.expenses)+', solde mensuel '+realMoney(x.net)+', épargne réservée '+realMoney(x.savings)+', montant après épargne '+realMoney(x.available)+'. '+(x.limit===undefined?'Aucun plafond mensuel enregistré.':x.expenses>x.limit?'Plafond dépassé de '+realMoney(x.expenses-x.limit)+'.':'Plafond mensuel respecté.')+' Charges fixes non marquées payées : '+realMoney(x.unpaid)+'. '+(x.categories.length?'Plus gros poste : '+x.categories[0][0]+' ('+realMoney(x.categories[0][1])+'). ':'')+'Conseil : vérifie les factures essentielles et les charges à venir, puis fixe un montant prudent pour les achats facultatifs. La catégorie seule ne permet pas de qualifier une dépense comme évitable.'+caveat;
  case 'charges':return 'Charges récurrentes actives sans paiement lié : '+realMoney(x.unpaid)+'. '+(x.outstanding.length?'Détail : '+x.outstanding.slice(0,8).map(r=>r.name+' ('+realMoney(r.amount)+')').join(', ')+'.':'Aucune charge active non réglée détectée.')+' Vérifie les paiements ajoutés manuellement, qui peuvent ne pas être reconnus.'+caveat;
- case 'economies':return 'Dépenses enregistrées : '+realMoney(x.expenses)+'. '+(x.categories.length?'Plus gros poste : '+x.categories[0][0]+' ('+realMoney(x.categories[0][1])+'). Examine d’abord les dépenses évitables, sans toucher aux besoins essentiels.':'Aucun poste de dépenses à comparer.')+(x.limit===undefined?' Aucun plafond mensuel n’est défini.':x.expenses>x.limit?' Le plafond est dépassé de '+realMoney(x.expenses-x.limit)+'.':' Le plafond n’est pas dépassé.')+caveat;
+ case 'economies':return 'Dépenses enregistrées : '+realMoney(x.expenses)+'. '+(x.categories.length?'Plus gros poste : '+x.categories[0][0]+' ('+realMoney(x.categories[0][1])+'). '+(/factur|logement|santé|sante|aliment|transport|assur|impôt|impot/i.test(x.categories[0][0])?'Ce poste peut être essentiel : vérifie sa nature et cherche seulement des optimisations possibles, sans présumer qu’il est évitable.':'Vérifie si ce poste comprend des achats reportables avant de chercher à économiser.'):'Aucun poste de dépenses à comparer.')+(x.limit===undefined?' Aucun plafond mensuel n’est défini.':x.expenses>x.limit?' Le plafond est dépassé de '+realMoney(x.expenses-x.limit)+'.':' Le plafond n’est pas dépassé.')+caveat;
  case 'plan':return 'Bilan du mois : revenus '+realMoney(x.income)+', dépenses payées '+realMoney(x.expenses)+', épargne réservée '+realMoney(x.savings)+', charges récurrentes non marquées payées '+realMoney(x.unpaid)+'. Priorité : vérifier les charges à venir et définir une réserve avant de nouveaux achats.'+caveat;
  case 'achat':return 'Pour évaluer un achat à partir de la sauvegarde, il manque le montant de l’achat et les dépenses futures prévues. Le solde mensuel après épargne enregistré est '+realMoney(x.available)+', avec '+realMoney(x.unpaid)+' de charges récurrentes possiblement encore dues. Je ne peux pas conclure que l’achat est sûr.'+caveat;
  case 'seuil':return 'Dépenses déjà effectuées : '+realMoney(x.expenses)+'. '+(x.limit===undefined?'Aucun plafond mensuel défini.':'Reste sur le plafond mensuel : '+realMoney(x.limit-x.expenses)+'.')+' Pour un budget quotidien, indique aussi les jours restants et les charges futures.'+caveat;
  case 'disponible':return 'Pour '+x.month+' : '+realMoney(x.income)+' de revenus − '+realMoney(x.expenses)+' de dépenses − '+realMoney(x.savings)+' d’épargne réservée = '+realMoney(x.available)+'. Les '+realMoney(x.unpaid)+' de charges non marquées payées sont montrées séparément.'+caveat;
- default:return 'Je peux analyser le mois '+x.month+'. Pose une question sur le disponible, les économies, les charges, ton plan mensuel ou un achat. Je ne suis pas encore une IA conversationnelle générative.';
+ default:return 'Je peux analyser le mois '+x.month+'. Pose une question sur le bilan, le disponible, les économies, les charges, ton plan mensuel ou un achat. Je ne suis pas encore une IA conversationnelle générative.';
  }
 }
 
 function classifyQuestion(q){
  const t=q.toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ if(/bilan|synthese|resume|situation financiere|analyse (de |du |mon )?mois/.test(t))return 'bilan';
  if(/charge|loyer|facture|abonnement|fixe/.test(t))return 'charges';
  if(/par jour|quotidien|chaque jour|journalier/.test(t))return 'seuil';
  if(/plan|organis|finir le mois|gerer mon mois|strategie/.test(t))return 'plan';
@@ -236,6 +238,7 @@ function answerQuestion(kind){
  const room=free-reserve, gap=Math.max(0,reserve-forecast);
  const caution=' Les chiffres sont des simulations : vérifie tes opérations et les charges encore dues.';
  switch(kind){
+ case 'bilan':return 'Bilan du scénario fictif : fonds de référence '+money(balance)+', charges à venir '+money(fixed)+', épargne à réserver '+money(saving)+', dépenses variables futures '+money(variable)+', prévision de fin de mois '+money(forecast)+'. Vérifie les montants et protège une réserve de '+money(reserve)+'.'+caution;
  case 'charges':
   return 'Les charges restant à payer dans ce scénario totalisent '+money(fixed)+'. '+(demoActive?'Dans la démonstration : loyer 2 200 MAD, Internet 300 MAD et électricité 500 MAD. L’abonnement de 180 MAD déjà payé n’est pas redéduit.':'Le détail n’est pas disponible tant que les opérations fictives ne sont pas analysées.')+caution;
  case 'economies':
