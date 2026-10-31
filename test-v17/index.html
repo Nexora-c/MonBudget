@@ -154,6 +154,26 @@ function realSnapshotFor(month){
  const savings=realData.savings[month]?.saved||0,limit=realData.budgets[month];
  return {month,income,expenses,net:income-expenses,savings,available:income-expenses-savings,unpaid,limit,categories:[...categories].sort((a,b)=>b[1]-a[1]),outstanding,txCount:tx.length};
 }
+function previousMonthKey(month){
+ const y=Number(month.slice(0,4)),m=Number(month.slice(5,7));
+ return (m===1?y-1:y)+'-'+String(m===1?12:m-1).padStart(2,'0');
+}
+const protectedCategories=/factur|logement|sant[eé]|aliment|transport|assur|imp[oô]t|education|[eé]lectricit[eé]|eau|loyer/i;
+function advancedAnalysis(x){
+ const previous=realSnapshotFor(previousMonthKey(x.month));
+ const prevTx=previous.txCount;
+ const changes=x.categories.map(([cat,amount])=>{
+  const prev=previous.categories.find(([k])=>k===cat)?.[1]||0;
+  return {cat,amount,prev,delta:amount-prev,essential:protectedCategories.test(cat)};
+ }).sort((a,b)=>b.delta-a.delta);
+ const increases=changes.filter(c=>c.delta>0);
+ const optional=increases.filter(c=>!c.essential);
+ const monthComparison=prevTx?('Mois précédent : '+realMoney(previous.expenses)+' de dépenses. Écart enregistré : '+(x.expenses>=previous.expenses?'+':'−')+realMoney(Math.abs(x.expenses-previous.expenses))+'. Cette comparaison ne tient pas compte des opérations encore à venir.'):'Pas assez de données du mois précédent pour une comparaison fiable.';
+ const example=optional[0];
+ const savingsTip=example?'Piste facultative à examiner : '+example.cat+' ('+realMoney(example.amount)+' ce mois-ci, contre '+realMoney(example.prev)+' précédemment). Une réduction de 10 % représenterait '+realMoney(example.amount*.1)+' ; c’est un exemple, pas une économie garantie.':'Aucune hausse clairement facultative détectée. Évite de réduire aveuglément les dépenses essentielles.';
+ const warning=increases.filter(c=>c.delta>0&&c.prev>0&&c.delta/c.prev>=.3).slice(0,3);
+ return {monthComparison,savingsTip,warning,prevTx,previous};
+}
 function drawRealReport(){
  if(!realData)return;
  const month=el('realMonth').value;realSnapshot=realSnapshotFor(month);
@@ -170,11 +190,17 @@ function drawRealReport(){
  for(const [name,value] of x.categories.slice(0,8)){const p=document.createElement('p');p.className='muted';p.textContent=name+' : '+realMoney(value)+' ('+(x.expenses?Math.round(100*value/x.expenses):0)+' % des dépenses)';root.append(p)}
  const advice=document.createElement('div');advice.className='status '+(x.available<0||x.limit!==undefined&&x.expenses>x.limit?'warn':'good');
  advice.textContent=x.available<0?'Solde mensuel négatif après épargne. Vérifie les revenus manquants, les opérations et les dépenses essentielles.':x.limit!==undefined&&x.expenses>x.limit?'Le plafond mensuel est dépassé de '+realMoney(x.expenses-x.limit)+'. Examine les dépenses modulables.':x.categories.length?'Premier poste enregistré : '+x.categories[0][0]+' ('+realMoney(x.categories[0][1])+'). Vérifie les achats non indispensables avant toute réduction.':'Ajoute des opérations pour obtenir des conseils plus précis.';
- root.append(advice);root.hidden=false;
+ root.append(advice);
+ const more=advancedAnalysis(x);
+ const advancedTitle=document.createElement('h2');advancedTitle.textContent='Analyse avancée';root.append(advancedTitle);
+ for(const msg of [more.monthComparison,more.savingsTip]){const p=document.createElement('p');p.className='muted';p.textContent=msg;root.append(p)}
+ if(more.warning.length&&more.prevTx){const p=document.createElement('p');p.className='status warn';p.textContent='Hausses à vérifier (par rapport au mois précédent) : '+more.warning.map(c=>c.cat+' +'+realMoney(c.delta)).join(' ; ')+'. Une hausse peut être ponctuelle ou liée au calendrier.';root.append(p)}
+ root.hidden=false;
  el('realFeedback').textContent='Analyse locale active : '+month+'. Le Copilote répond maintenant sur ce mois quand tu lui poses une question.';
+ const first=el('chatLog')?.firstElementChild;if(first&&first.classList.contains('bot'))first.textContent='Sauvegarde chargée pour '+month+'. Je peux présenter ton bilan, comparer les dépenses mensuelles et suggérer des pistes prudentes d’économies.';
 }
 function clearRealAnalysis(){
- realData=null;realSnapshot=null;el('budgetFile').value='';el('realMonth').replaceChildren();el('realMonth').disabled=true;el('realReport').replaceChildren();el('realReport').hidden=true;el('realFeedback').textContent='Analyse effacée de la mémoire de cette page. Les réponses du Copilote utilisent à nouveau le scénario fictif.';
+ realData=null;realSnapshot=null;el('budgetFile').value='';el('realMonth').replaceChildren();el('realMonth').disabled=true;el('realReport').replaceChildren();el('realReport').hidden=true;el('realFeedback').textContent='Analyse effacée de la mémoire de cette page. Les réponses du Copilote utilisent à nouveau le scénario fictif.';const first=el('chatLog')?.firstElementChild;if(first&&first.classList.contains('bot'))first.textContent="Bonjour ! Je peux expliquer les prévisions, le montant disponible, les économies possibles et les charges de ce scénario de démonstration. Commence par une question ci-dessus.";
 }
 el('clearReal').addEventListener('click',clearRealAnalysis);
 el('realMonth').addEventListener('change',drawRealReport);
@@ -211,7 +237,11 @@ function answerRealQuestion(kind){
  switch(kind){
  case 'bilan':return 'Bilan du mois '+x.month+' : revenus '+realMoney(x.income)+', dépenses '+realMoney(x.expenses)+', solde mensuel '+realMoney(x.net)+', épargne réservée '+realMoney(x.savings)+', montant après épargne '+realMoney(x.available)+'. '+(x.limit===undefined?'Aucun plafond mensuel enregistré.':x.expenses>x.limit?'Plafond dépassé de '+realMoney(x.expenses-x.limit)+'.':'Plafond mensuel respecté.')+' Charges fixes non marquées payées : '+realMoney(x.unpaid)+'. '+(x.categories.length?'Plus gros poste : '+x.categories[0][0]+' ('+realMoney(x.categories[0][1])+'). ':'')+'Conseil : vérifie les factures essentielles et les charges à venir, puis fixe un montant prudent pour les achats facultatifs. La catégorie seule ne permet pas de qualifier une dépense comme évitable.'+caveat;
  case 'charges':return 'Charges récurrentes actives sans paiement lié : '+realMoney(x.unpaid)+'. '+(x.outstanding.length?'Détail : '+x.outstanding.slice(0,8).map(r=>r.name+' ('+realMoney(r.amount)+')').join(', ')+'.':'Aucune charge active non réglée détectée.')+' Vérifie les paiements ajoutés manuellement, qui peuvent ne pas être reconnus.'+caveat;
- case 'economies':return 'Dépenses enregistrées : '+realMoney(x.expenses)+'. '+(x.categories.length?'Plus gros poste : '+x.categories[0][0]+' ('+realMoney(x.categories[0][1])+'). '+(/factur|logement|santé|sante|aliment|transport|assur|impôt|impot/i.test(x.categories[0][0])?'Ce poste peut être essentiel : vérifie sa nature et cherche seulement des optimisations possibles, sans présumer qu’il est évitable.':'Vérifie si ce poste comprend des achats reportables avant de chercher à économiser.'):'Aucun poste de dépenses à comparer.')+(x.limit===undefined?' Aucun plafond mensuel n’est défini.':x.expenses>x.limit?' Le plafond est dépassé de '+realMoney(x.expenses-x.limit)+'.':' Le plafond n’est pas dépassé.')+caveat;
+ case 'economies':{
+  const adv=advancedAnalysis(x);
+  return 'Dépenses enregistrées : '+realMoney(x.expenses)+'. '+adv.monthComparison+' '+adv.savingsTip+(x.limit===undefined?' Aucun plafond mensuel défini.':x.expenses>x.limit?' Plafond dépassé de '+realMoney(x.expenses-x.limit)+'.':' Plafond respecté.')+caveat;
+ }
+
  case 'plan':return 'Bilan du mois : revenus '+realMoney(x.income)+', dépenses payées '+realMoney(x.expenses)+', épargne réservée '+realMoney(x.savings)+', charges récurrentes non marquées payées '+realMoney(x.unpaid)+'. Priorité : vérifier les charges à venir et définir une réserve avant de nouveaux achats.'+caveat;
  case 'achat':return 'Pour évaluer un achat à partir de la sauvegarde, il manque le montant de l’achat et les dépenses futures prévues. Le solde mensuel après épargne enregistré est '+realMoney(x.available)+', avec '+realMoney(x.unpaid)+' de charges récurrentes possiblement encore dues. Je ne peux pas conclure que l’achat est sûr.'+caveat;
  case 'seuil':return 'Dépenses déjà effectuées : '+realMoney(x.expenses)+'. '+(x.limit===undefined?'Aucun plafond mensuel défini.':'Reste sur le plafond mensuel : '+realMoney(x.limit-x.expenses)+'.')+' Pour un budget quotidien, indique aussi les jours restants et les charges futures.'+caveat;
