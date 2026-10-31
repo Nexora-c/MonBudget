@@ -187,7 +187,7 @@ el('budgetFile').addEventListener('change',async e=>{
  if(!raw||![1,2,3,4].includes(raw.version)||!Array.isArray(raw.transactions))throw Error('Sauvegarde Mon Budget DIGITAL non reconnue.');
  if(raw.transactions.length>10000)throw Error('Trop d’opérations.');
  const transactions=raw.transactions.map(t=>{
-  if(!t||typeof t.id!=='string'||!['income','expense'].includes(t.type)||!Number.isFinite(t.amount)||t.amount<=0||t.amount>=1e11||typeof t.date!=='string'||!/^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$/.test(t.date)||typeof t.category!=='string')throw Error('Opération invalide dans la sauvegarde.');
+  if(!t||typeof t.id!=='string'||!['income','expense'].includes(t.type)||!Number.isFinite(t.amount)||t.amount<=0||t.amount>=1e11||typeof t.date!=='string'||!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(t.date)||typeof t.category!=='string')throw Error('Opération invalide dans la sauvegarde.');
   return {id:t.id,type:t.type,amount:t.amount,date:t.date,category:t.category,recurringId:typeof t.recurringId==='string'?t.recurringId:null};
  });
  const recurring=Array.isArray(raw.recurring)?raw.recurring.map(r=>{
