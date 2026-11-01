@@ -332,6 +332,7 @@ function answerRealQuestion(kind){
  const caveat=' Analyse basée uniquement sur les opérations du mois '+x.month+' ; ce n’est pas un solde bancaire cumulatif.';
  const uncertain=x.manualCandidates.length?' Attention : '+x.manualCandidates.length+' charge(s) ont des opérations manuelles ressemblantes ; leur paiement doit être vérifié avant de considérer ces charges comme dues.':'';
  switch(kind){
+ case 'prochaine_etape':return 'Pour préparer le mois suivant : 1) Contrôle les charges récurrentes et les factures qui ne figurent pas encore dans la sauvegarde. 2) Vérifie que les '+realMoney(x.savings)+' d’épargne réservée le sont réellement. 3) Avant un achat facultatif, garde une marge pour les besoins essentiels et les imprévus. Les '+realMoney(x.available)+' calculés pour '+x.month+' ne sont pas un solde bancaire garanti : les dépenses futures sont inconnues.'+caveat;
  case 'suivi':return 'Pour '+x.month+', le montant après épargne ('+realMoney(x.available)+') vient de revenus '+realMoney(x.income)+' moins dépenses '+realMoney(x.expenses)+' et épargne '+realMoney(x.savings)+'. Vérifie en priorité les charges encore dues ('+realMoney(x.unpaid)+') et les achats essentiels futurs. Je ne peux pas confirmer ton solde bancaire réel ni prévoir des montants non enregistrés.'+caveat;
  case 'conseils':{
   const optional=x.categories.filter(([cat])=>!protectedCategories.test(cat));
@@ -362,6 +363,7 @@ function answerRealQuestion(kind){
 function classifyQuestion(q){
  const t=q.toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
  if(/compar|evolut|difference|versus|vs\b/.test(t))return 'comparaison';
+ if(/que (dois|devrais)[ -]?je faire (ensuite|maintenant)|quoi faire (ensuite|maintenant)|prochaine etape|par quoi commencer|et maintenant|et ensuite/.test(t))return 'prochaine_etape';
  if(/pourquoi|explique|comment ca|plus de detail|precise|et ensuite|que faire ensuite/.test(t))return 'suivi';
  if(/mieux gerer|gerer mon budget|gestion de mon budget|comment gerer|ameliorer mon budget|recommand|que (me )?conseill/.test(t))return 'conseils';
  if(/bilan|synthese|resume|situation financiere|analyse (de |du |mon )?mois/.test(t))return 'bilan';
@@ -380,6 +382,7 @@ function answerQuestion(kind){
  const room=free-reserve, gap=Math.max(0,reserve-forecast);
  const caution=' Les chiffres sont des simulations : vérifie tes opérations et les charges encore dues.';
  switch(kind){
+ case 'prochaine_etape':return 'Dans le scénario fictif, commence par vérifier les charges, puis l’épargne et les besoins essentiels futurs. Charge une sauvegarde JSON pour obtenir des conseils fondés sur tes opérations.'+caution;
  case 'suivi':return 'Je peux expliquer le scénario fictif, mais pour un suivi personnel charge une sauvegarde JSON.'+caution;
  case 'conseils':return 'Pour améliorer ce scénario fictif : vérifie les charges restant à payer, protège l’épargne et la réserve, puis examine uniquement les dépenses facultatives. Les prévisions restent des hypothèses.'+caution;
  case 'comparaison':return 'Le scénario fictif ne contient pas deux mois complets comparables. Charge une sauvegarde JSON pour effectuer une comparaison réelle.';
