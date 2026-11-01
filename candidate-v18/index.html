@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#e9f5ff"><title>Mon Budget DIGITAL — Candidate Copilote v1.8</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#142f50;background:#eef5fc}*{box-sizing:border-box}body{margin:0}main{max-width:780px;margin:auto;padding:20px 14px 65px}.top{display:flex;align-items:center;gap:12px;margin:5px 0 16px}.logo{width:54px;height:54px;object-fit:cover;border-radius:15px}h1{font-size:19px;margin:0}h2{font-size:17px;margin:0 0 14px}.sub{font-size:12px;color:#617b96}.pill{display:inline-block;background:#d9ebfa;color:#235e95;border-radius:22px;padding:6px 10px;font-size:12px;font-weight:700;margin-top:7px}.note{background:#fff8e8;border:1px solid #eedcb1;border-radius:14px;padding:12px;font-size:13px;line-height:1.5;margin-bottom:18px}.card{background:white;border:1px solid #dbe7f4;border-radius:19px;padding:18px;margin:14px 0;box-shadow:0 4px 15px #27496a0b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{background:#f2f8fd;border-radius:14px;padding:14px}.metric small{display:block;color:#647e99;font-size:12px;margin-bottom:7px}.metric strong{display:block;font-size:19px}.hero{background:linear-gradient(135deg,#236eb0,#70b5e6);color:white}.hero small{color:#deefff}.hero strong{font-size:32px}.muted{color:#637f98;font-size:13px;line-height:1.45}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.field{display:block;font-size:13px;font-weight:600;margin:12px 0 5px}input{width:100%;padding:12px;border-radius:11px;border:1px solid #c4d7e9;font-size:16px;color:#173754;background:#fcfdff}input:focus{outline:2px solid #6eaee1}button{border:0;border-radius:12px;background:#236eb0;color:white;font-weight:700;padding:12px 16px;cursor:pointer}button.secondary{background:#e6f1fa;color:#246293}.status{border-radius:12px;padding:12px;line-height:1.5;font-size:14px}.good{background:#e5f6ed;color:#135b3f}.warn{background:#fff3dc;color:#88530f}.bad{background:#fde8e8;color:#9f3034}.tag{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#4e87b6}ul{padding-left:20px;line-height:1.65}.actions{display:flex;flex-wrap:wrap;gap:8px}.foot{text-align:center;font-size:12px;color:#7890a7;margin:30px 0}@media(min-width:610px){.fields{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}}@media(max-width:350px){.grid{grid-template-columns:1fr}.metric strong{font-size:18px}}
+.insight{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.insight div{background:#f2f8fd;border-radius:11px;padding:10px;min-width:0}.insight small{display:block;color:#647e99;font-size:11px}.insight strong{display:block;margin-top:4px;font-size:15px;overflow-wrap:anywhere}.barline{margin:12px 0}.barhead{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:5px}.bartrack{height:9px;border-radius:20px;background:#e8f0f7;overflow:hidden}.barfill{height:100%;background:linear-gradient(90deg,#6cb3e8,#2276b9);border-radius:20px}.nav{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px}.nav a{flex:0 0 auto;text-decoration:none;font-size:12px;color:#236eb0;background:white;border:1px solid #dbe7f4;border-radius:20px;padding:9px 12px;font-weight:700}@media(max-width:380px){.insight{grid-template-columns:1fr 1fr}}.chatlog{display:flex;flex-direction:column;gap:10px;margin:14px 0}.bubble{padding:12px 14px;border-radius:15px;font-size:14px;line-height:1.5;max-width:94%;white-space:pre-wrap}.bubble.user{align-self:flex-end;background:#246eaf;color:white}.bubble.bot{align-self:flex-start;background:#edf5fc;color:#173b5c}.chatbuttons{display:flex;flex-wrap:wrap;gap:7px}.chatbuttons button{font-size:12px;padding:9px 10px}.chatentry{display:flex;gap:8px;margin-top:10px}.chatentry input{min-width:0;flex:1}.chatentry button{flex:0 0 auto}@media(max-width:400px){.chatentry button{padding:10px}}
+.quick-home{background:#fff;border:1px solid #dbe7f4;border-radius:20px;padding:18px;margin:14px 0}.quick-home h2{margin:0 0 6px}.quick-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:13px}.quick-actions a{text-decoration:none;background:#eaf4fd;color:#145b97;font-weight:700;padding:13px 10px;border-radius:13px;text-align:center;min-height:48px;display:flex;align-items:center;justify-content:center}.quick-actions a:focus-visible{outline:3px solid #246eaf}.quick-totals{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}.quick-totals div{background:#f2f8fd;padding:12px;border-radius:12px}.quick-totals small{display:block;color:#617b96}.quick-totals strong{display:block;margin-top:4px;font-size:19px}.quick-label{font-size:12px;color:#5d7288;margin-top:8px}@media(max-width:360px){.quick-actions{grid-template-columns:1fr}}
+.coach-preview{margin-top:14px;background:linear-gradient(130deg,#eaf5ff,#f7fbff);border:1px solid #cde4f7;border-radius:15px;padding:15px}.coach-preview h3{margin:0 0 8px;font-size:16px}.coach-preview p{margin:6px 0;font-size:14px;line-height:1.55}.coach-preview a{display:inline-block;margin-top:9px;background:#236eb0;color:white;text-decoration:none;border-radius:11px;padding:11px 15px;font-weight:700}.lab-panel{margin:16px 0}.lab-panel summary{cursor:pointer;border:1px solid #dbe7f4;background:white;border-radius:12px;padding:14px;font-weight:700;color:#205d93}.lab-panel[open] summary{margin-bottom:12px}.lab-navigation{display:flex;flex-wrap:wrap;gap:8px;padding:10px 0}.lab-navigation a{color:#236eb0;background:#eaf4fd;padding:10px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700}</style></head>
+<body><main><div class="note" role="status">🔒 <strong>Version candidate v1.8 — validation avant intégration.</strong> Cette page est isolée de Mon Budget DIGITAL v1.6. Charge uniquement un export JSON si tu veux analyser ton budget, sans enregistrement.</div><div class="top"><img class="logo" src="../icons/icon-192.png" alt="Logo Mon Budget DIGITAL"><div><h1>Mon Budget <span style="color:#2784c8">DIGITAL</span></h1><div class="sub">Laboratoire v1.8 · Alertes et suivi</div><span class="pill">Prototype isolé · données fictives</span></div></div>
+<div class="note"><strong>🔒 Laboratoire séparé de la v1.6.</strong> Les simulations sont fictives. Une sauvegarde JSON peut être lue uniquement si tu la sélectionnes ; son contenu est analysé localement sans modifier le budget officiel. Aucun fichier financier n’est envoyé par cette page.</div>
+<section class="quick-home" id="accueilSimple"><h2>🏠 Mon espace budget</h2><p class="muted">Accède rapidement à ton bilan et au Copilote. Les essais techniques restent disponibles plus bas.</p><div class="quick-totals"><div><small>Revenus du mois</small><strong id="quickIncome">—</strong></div><div><small>Dépenses du mois</small><strong id="quickExpenses">—</strong></div><div><small>Après épargne</small><strong id="quickBalance">—</strong></div><div><small>Charges à vérifier</small><strong id="quickCharges">—</strong></div></div><p id="quickContext" class="quick-label">Charge une sauvegarde JSON pour afficher tes chiffres. Aucun accès automatique à la v1.6.</p><div class="coach-preview"><h3>🤖 Le conseil de MBD Copilote</h3><p id="coachHomeAdvice">Charge ta sauvegarde JSON pour recevoir un bilan et un conseil fondés sur tes opérations. Les simulations du laboratoire restent fictives.</p><form id="homeChatForm" class="chatentry" style="margin-top:12px"><input id="homeChatInput" type="text" maxlength="180" autocomplete="off" placeholder="Pose une question à MBD Copilote..." aria-label="Question au Copilote depuis l’accueil"><button type="submit">Envoyer</button></form><div id="homeChatResponse" class="status good" style="margin-top:10px" role="status" aria-live="polite">Pose une question sur ton bilan, tes charges ou tes économies. Aucun message n’est enregistré.</div><a href="#copilote">Voir la conversation complète</a></div><div id="homeAlerts" class="status warn" style="margin-top:12px" aria-live="polite">🔔 Charge une sauvegarde pour afficher les alertes liées à ton budget.</div><div class="quick-actions"><a href="#analyseReelle">📁 Charger mon budget</a><a href="#realReconcile">🔎 Vérifier mes charges</a></div></section>
+<details class="lab-panel"><summary>🧪 Laboratoire — outils et tests avancés</summary><nav class="lab-navigation" aria-label="Navigation du laboratoire"><a href="#intelligent">Vue fictive</a><a href="#autoDemo">Analyse fictive</a><a href="#scenario">Paramètres</a><a href="#achats">Achats fictifs</a><a href="#alertes">Alertes fictives</a><a href="#dynamicTest">Suivi dynamique</a><a href="#complexMatching">Tests des charges</a><a href="#alertes">🔔 Alertes fictives</a></nav></details>
+<section class="card" id="intelligent"><div class="row"><h2>✨ Mon Budget Intelligent</h2><span class="pill">v1.7</span></div><p class="muted">Un aperçu clair de la situation, fondé uniquement sur des données de démonstration.</p><div class="insight"><div><small>Revenus enregistrés</small><strong id="dashboardIncome">—</strong></div><div><small>Dépenses enregistrées</small><strong id="dashboardExpense">—</strong></div><div><small>Charges à venir</small><strong id="dashboardFixed">—</strong></div></div><h2 style="margin-top:18px">Répartition fictive des dépenses</h2><div id="categoryBars" class="muted">Lance l'analyse automatique pour afficher les catégories.</div><div id="priorityTip" class="status good" style="margin-top:14px">💡 Lance l'analyse automatique pour obtenir une priorité de gestion.</div></section>
+<div class="card hero"><small>Disponible après charges et épargne</small><div><strong id="available">5 200 MAD</strong></div><small>Solde de référence − charges restantes − épargne réservée</small></div>
+<div class="grid"><div class="metric"><small>📅 Fin de mois prévue</small><strong id="forecast">2 400 MAD</strong></div><div class="metric"><small>🛒 Après achat simulé</small><strong id="after">1 200 MAD</strong></div></div>
+<section class="card" id="autoDemo"><div class="row"><h2>🧠 Analyse automatique</h2><span class="pill">Démonstration</span></div><p class="muted">Un jeu d'opérations inventées simule les données de ton budget : revenus, dépenses et charges fixes. Le système calcule une estimation prudente, sans accéder à tes informations réelles.</p><div class="actions"><button id="autoFill">Analyser les opérations fictives</button><button class="secondary" id="showDemo">Voir le détail des données</button></div><div id="demoDetail" hidden style="margin-top:12px" class="muted"></div><div id="autoResult" class="muted" aria-live="polite" style="margin-top:12px">Clique sur « Analyser » pour alimenter le simulateur automatiquement.</div></section>
+<section class="card" id="scenario"><div class="row"><h2>⚙️ Scénario de test</h2><button class="secondary" id="reset">Réinitialiser</button></div><p class="muted">Modifie un montant : toutes les prévisions et alertes s'actualisent immédiatement.</p><div class="fields">
+<label><span class="field">Solde de référence (MAD)</span><input id="balance" type="number" min="0" step="10" value="9700" inputmode="decimal"></label>
+<label><span class="field">Charges fixes restant à payer (MAD)</span><input id="fixed" type="number" min="0" step="10" value="3000" inputmode="decimal"></label>
+<label><span class="field">Épargne encore à réserver (MAD)</span><input id="savings" type="number" min="0" step="10" value="1500" inputmode="decimal"></label>
+<label><span class="field">Dépenses variables restantes prévues (MAD)</span><input id="variable" type="number" min="0" step="10" value="2800" inputmode="decimal"></label>
+<label><span class="field">Revenus futurs confirmés (MAD)</span><input id="income" type="number" min="0" step="10" value="0" inputmode="decimal"></label>
+<label><span class="field">Réserve de sécurité souhaitée (MAD)</span><input id="reserve" type="number" min="0" step="10" value="1000" inputmode="decimal"></label>
+</div></section>
+<section class="card"><h2>📈 Prévision prudente</h2><div id="forecastStatus" class="status good"></div><p class="muted">La projection est calculée sur les dépenses futures saisies. Les revenus incertains ne sont pas inclus. Le bouton d'analyse utilise trois mois de données fictives pour estimer les dépenses restantes. Les hypothèses sont ajustables.</p></section>
+<section class="card" id="achats"><h2>🛍️ Simulateur « Puis-je acheter ? »</h2><label><span class="field">Prix de l'achat envisagé (MAD)</span><input id="purchase" type="number" min="0" step="10" value="1200" inputmode="decimal"></label><div style="margin-top:14px" id="purchaseStatus" class="status good"></div><p class="muted">Simulation seulement : aucun achat n'est ajouté à tes opérations.</p></section>
+<section class="card" id="alertes"><h2>🔔 Alertes intelligentes</h2><div id="alerts" aria-live="polite"></div></section>
+<section class="card" id="planAuto"><h2>🧭 Mon plan mensuel automatique</h2><p class="muted">Calculé automatiquement à partir de la sauvegarde sélectionnée, sans objectif d’épargne à saisir. Les opérations du mois peuvent être incomplètes : il s’agit d’un aperçu prudent, pas d’un solde bancaire ni d’une promesse de disponibilité.</p><div id="autoPlanResult" class="status warn">Charge une sauvegarde JSON dans « Analyse de ma sauvegarde » pour afficher le plan.</div></section>
+<section class="card" id="dynamicTest"><h2>🔄 Suivi dynamique — novembre fictif</h2><p class="muted">Ajoute des dépenses de démonstration. Elles réduisent la marge et l'enveloppe quotidienne sans être enregistrées. Si une dépense correspond à une charge déjà prévue, elle est déduite du montant prévu restant pour éviter de la compter deux fois.</p><div class="fields"><label><span class="field">Montant de la dépense fictive (MAD)</span><input id="dynamicAmount" type="number" min="1" max="99999" step="1" value="200"></label><label><span class="field">Nature de la dépense</span><select id="dynamicType" style="width:100%;padding:12px;border:1px solid #c4d7e9;border-radius:11px;background:white"><option value="variable">Dépense variable déjà prévue</option><option value="fixed">Charge fixe déjà prévue</option><option value="essential">Besoin essentiel déjà prévu</option><option value="extra">Dépense imprévue</option></select></label></div><label><span class="field">Jour du mois simulé (1 à 30)</span><input id="dynamicDay" type="number" min="1" max="30" value="1" step="1"></label><div class="actions" style="margin-top:12px"><button type="button" id="dynamicAdd">Ajouter au scénario</button><button type="button" class="secondary" id="dynamicReset">Réinitialiser</button></div><div id="dynamicResult" class="status warn" style="margin-top:12px"></div><div id="dynamicHistory" class="muted" aria-live="polite" style="margin-top:12px"></div></section>
+<section class="card" id="novTest"><h2>🧪 Test fictif — novembre 2026</h2><p class="muted">Simulation totalement séparée de ta sauvegarde et de la v1.6. Les chiffres ci-dessous sont inventés et servent uniquement à contrôler le démarrage du mois.</p><button id="runNovTest" type="button">Simuler le 1er novembre</button><div id="novTestResult" class="status warn" style="margin-top:12px">Aucun test exécuté.</div></section>
+<section class="card" id="forecastReal"><h2>📅 Prévision prudente du reste du mois</h2><p class="muted">Estimation fondée sur les dépenses variables des mois précédents lorsqu'un historique suffisant existe. Les charges récurrentes à payer sont suivies séparément. Aucune dépense future n'est inventée si les données sont insuffisantes.</p><div id="forecastRealResult" class="status warn">Charge une sauvegarde et sélectionne un mois pour calculer une prévision.</div></section>
+<section class="card" id="realReconcile"><h2>🔎 Vérification des charges de ma sauvegarde</h2><p class="muted">Lecture seule. « Payée (lien explicite) » signifie seulement qu'une opération de dépense est liée à la charge dans le fichier. Une correspondance manuelle reste « À vérifier ». Aucune facture n'est modifiée ni confirmée automatiquement.</p><div id="realReconcileResult" class="muted">Charge une sauvegarde JSON et choisis un mois.</div></section>
+<section class="card" id="complexMatching"><h2>🧪 Tests avancés de rapprochement</h2><p class="muted">Trois scénarios entièrement fictifs : factures identiques, paiement partiel et libellé différent. Aucun rapprochement n’est une confirmation de paiement.</p><div class="actions"><button type="button" id="testSame">Deux factures identiques</button><button type="button" id="testPartial" class="secondary">Paiement partiel</button><button type="button" id="testLabel" class="secondary">Libellé différent</button></div><div id="complexResult" class="status warn" style="margin-top:12px" aria-live="polite">Choisis un scénario pour tester.</div></section>
+<section class="card" id="matchingTest"><h2>🧪 Test de rapprochement des charges</h2><p class="muted">Exemple fictif et indépendant de ta sauvegarde : une charge Internet de 350 MAD et une dépense manuelle de 350 MAD. Le robot signale un paiement possible, sans le marquer automatiquement comme réglé.</p><button type="button" id="runMatchingTest">Tester le paiement manuel</button><div id="matchingResult" class="status warn" style="margin-top:12px">Test non exécuté.</div></section>
+<section class="card" id="analyseReelle">
+<div class="row"><h2>🔐 Analyse de ma sauvegarde</h2><span class="pill">Lecture seule</span></div>
+<p class="muted">Choisis volontairement une sauvegarde JSON issue de la v1.6 pour obtenir un bilan de tes opérations. Le fichier reste dans cette page, en mémoire, sans envoi ni écriture dans la sauvegarde officielle. Ne publie jamais ce fichier sur GitHub.</p>
+<label><span class="field">Fichier de sauvegarde Mon Budget DIGITAL (.json)</span><input id="budgetFile" type="file" accept=".json,application/json"></label>
+<div class="row" style="margin-top:12px"><label style="flex:1"><span class="field">Mois à analyser</span><select id="realMonth" disabled style="width:100%;padding:12px;border:1px solid #c4d7e9;border-radius:11px;background:white"></select></label><button class="secondary" id="clearReal" type="button">Effacer l'analyse</button></div>
+<div id="realFeedback" class="muted" aria-live="polite" style="margin-top:12px">Aucun fichier sélectionné. Les résultats ci-dessus restent fictifs.</div>
+<div id="realReport" hidden style="margin-top:14px"></div>
+</section>
+<section class="card" id="copilote"><div class="row"><h2>💬 MBD Copilote</h2><span class="pill" id="chatModeBadge">Assistant de démonstration</span></div><p class="muted" id="chatModeDescription">Pose une question sur le scénario fictif. Les réponses sont calculées localement, sans service IA et sans envoi de données.</p><div class="chatbuttons"><button class="secondary" type="button" data-ask="disponible">Combien puis-je dépenser ?</button><button class="secondary" type="button" data-ask="economies">Où économiser ?</button><button class="secondary" type="button" data-ask="achat">Cet achat est-il raisonnable ?</button><button class="secondary" type="button" data-ask="charges">Quelles charges restent ?</button><button class="secondary" type="button" data-ask="plan">Mon plan pour finir le mois</button><button class="secondary" type="button" data-ask="seuil">Quel est mon budget quotidien ?</button></div><div class="chatlog" id="chatLog" aria-live="polite"><div class="bubble bot">Bonjour ! Je peux expliquer les prévisions, le montant disponible, les économies possibles et les charges de ce scénario de démonstration. Commence par une question ci-dessus.</div></div><form class="chatentry" id="chatForm"><input id="chatInput" type="text" maxlength="180" placeholder="Pose une question sur ton budget..." autocomplete="off" aria-label="Question au copilote"><button type="submit">Envoyer</button></form><p class="muted">Ce copilote local reconnaît plusieurs intentions et explique ses calculs : ce n'est pas encore une IA générative. Il utilise uniquement la sauvegarde choisie lorsqu’elle est chargée ; sinon, il répond sur le scénario fictif. Il ne connaît pas les dépenses futures non enregistrées.</p></section>
+<section class="card"><h2>✨ Aperçu du futur copilote IA</h2><div class="tag">Recommandation locale — sans connexion à une IA</div><p id="coach" style="line-height:1.6"></p><p class="muted">La future IA expliquera ces résultats. Les calculs resteront effectués par un moteur financier déterministe.</p></section>
+<section class="card"><h2>✅ Validation du prototype</h2><p class="muted">À vérifier : montants corrects, réaction aux valeurs négatives, seuil de réserve configurable, aucune double déduction des charges déjà réglées lors de la future connexion aux opérations, absence d'écriture dans l'application officielle.</p><div class="actions"><button id="exampleRisk" class="secondary">Tester une alerte</button><button id="exampleGood" class="secondary">Tester un scénario favorable</button></div></section>
+<div class="foot">Prototype v1.7 autonome · sans accès à monbudget-v1 · aucune synchronisation · ne remplace pas l'application officielle</div>
+</main><script>
+'use strict';
+const ids=['balance','fixed','savings','variable','income','reserve','purchase'];
+const preset=[9700,3000,1500,2800,0,1000,1200];
+const el=x=>document.getElementById(x);
+const money=n=>new Intl.NumberFormat('fr-MA',{minimumFractionDigits:0,maximumFractionDigits:0}).format(n)+' MAD';
+function val(id){const x=Number(el(id).value);return Number.isFinite(x)?Math.max(0,x):0;}
+function status(node,cls,html){node.className='status '+cls;node.textContent=html;}
+function refresh(){
+ const [balance,fixed,savings,variable,income,reserve,purchase]=ids.map(val);
+ const available=balance+income-fixed-savings;
+ const forecast=available-variable;
+ const after=forecast-purchase;
+ el('available').textContent=money(available);el('forecast').textContent=money(forecast);el('after').textContent=money(after);
+ const cls=n=>n<0?'bad':n<reserve?'warn':'good';
+ status(el('forecastStatus'),cls(forecast),forecast<0?'⚠️ Prévision négative : il manquerait '+money(-forecast)+' pour couvrir les dépenses planifiées.':forecast<reserve?'⚠️ Marge faible : '+money(forecast)+' prévus, en dessous de ta réserve de '+money(reserve)+'.':'✓ Prévision positive : '+money(forecast)+' resteraient après dépenses et épargne prévues.');
+ status(el('purchaseStatus'),cls(after),after<0?'⛔ Achat risqué : déficit simulé de '+money(-after)+'.':after<reserve?'⚠️ Prudence : après cet achat, il resterait '+money(after)+', sous la réserve de '+money(reserve)+'.':'✓ Simulation favorable : '+money(after)+' resteraient après l’achat.');
+ const a=[];
+ if(available<0)a.push('🔴 Les charges et l’épargne à réserver dépassent les fonds disponibles.');
+ if(forecast<0)a.push('🔴 Risque de déficit de '+money(-forecast)+' à la fin du mois.');
+ else if(forecast<reserve)a.push('🟠 La marge de fin de mois est inférieure à ta réserve de '+money(reserve)+'.');
+ if(after<0)a.push('🔴 L’achat envisagé ferait passer ton budget sous zéro.');
+ else if(after<reserve)a.push('🟠 L’achat réduirait ta marge en dessous de la réserve choisie.');
+ if(!a.length)a.push('🟢 Pas d’alerte majeure dans ce scénario fictif.');
+ const list=document.createElement('ul');for(const s of a){const li=document.createElement('li');li.textContent=s;list.append(li);}el('alerts').replaceChildren(list);
+ el('coach').textContent=after<0?'Je te conseille de reporter cet achat ou de réduire les dépenses prévues. Le scénario ferait apparaître un déficit de '+money(-after)+'.':after<reserve?'Cet achat laisserait '+money(after)+'. Pour préserver ta réserve de '+money(reserve)+', tu pourrais choisir un achat moins coûteux ou le reporter.':'Selon les hypothèses saisies, cet achat laisserait '+money(after)+'. Tu conserverais la réserve de sécurité que tu as choisie.';
+}
+for(const id of ids)el(id).addEventListener('input',refresh);
+function apply(p){ids.forEach((id,i)=>el(id).value=p[i]);refresh()}
+el('reset').addEventListener('click',()=>apply(preset));
+el('exampleRisk').addEventListener('click',()=>apply([5000,3000,1000,2000,0,1000,1500]));
+el('exampleGood').addEventListener('click',()=>apply([12000,2000,1500,2200,0,1000,900]));
+
+// Toutes les données suivantes sont fictives, codées dans cette page de test.
+// Un calcul prudent prend le plus grand entre l'historique ajusté et le rythme du mois.
+const demo={
+ referenceDate:'2026-10-20',daysInMonth:31,openingBalance:9000,
+ current:[
+ {date:'2026-10-02',type:'income',category:'Salaire',amount:2000},
+ {date:'2026-10-04',type:'expense',category:'Alimentation',amount:500},
+ {date:'2026-10-09',type:'expense',category:'Transport',amount:300},
+ {date:'2026-10-15',type:'expense',category:'Loisirs',amount:500}
+ ],
+ history:[
+ {category:'Alimentation',month:'2026-07',amount:1400},{category:'Transport',month:'2026-07',amount:620},{category:'Loisirs',month:'2026-07',amount:720},
+ {category:'Alimentation',month:'2026-08',amount:1500},{category:'Transport',month:'2026-08',amount:650},{category:'Loisirs',month:'2026-08',amount:750},
+ {category:'Alimentation',month:'2026-09',amount:1600},{category:'Transport',month:'2026-09',amount:700},{category:'Loisirs',month:'2026-09',amount:800}
+ ],
+ recurring:[
+ {name:'Loyer',amount:2200,paid:false},{name:'Internet',amount:300,paid:false},
+ {name:'Electricité',amount:500,paid:false},{name:'Abonnement déjà payé',amount:180,paid:true}
+ ],
+ savingsToReserve:1500,confirmedFutureIncome:0,securityReserve:1000
+};
+let demoActive=false;
+function analyzeDemo(){
+ const received=demo.current.filter(x=>x.type==='income').reduce((a,x)=>a+x.amount,0);
+ const spent=demo.current.filter(x=>x.type==='expense').reduce((a,x)=>a+x.amount,0);
+ const balance=demo.openingBalance+received-spent;
+ const fixed=demo.recurring.filter(x=>!x.paid).reduce((a,x)=>a+x.amount,0);
+ const day=Number(demo.referenceDate.slice(-2));
+ const daysRemaining=demo.daysInMonth-day;
+ const cats=[...new Set(demo.history.map(x=>x.category))];
+ const projections=cats.map(cat=>{
+   const previous=demo.history.filter(x=>x.category===cat);
+   const historyAverage=previous.reduce((a,x)=>a+x.amount,0)/3;
+   const current=demo.current.filter(x=>x.type==='expense'&&x.category===cat).reduce((a,x)=>a+x.amount,0);
+   const estimatedRemaining=Math.round(Math.max(historyAverage*daysRemaining/demo.daysInMonth,current/Math.max(1,day)*daysRemaining));
+   return {cat,current,historyAverage,estimatedRemaining};
+ });
+ const remaining=projections.reduce((a,x)=>a+x.estimatedRemaining,0);
+ apply([balance,fixed,demo.savingsToReserve,remaining,demo.confirmedFutureIncome,demo.securityReserve,val('purchase')]);
+ demoActive=true;
+ const top=[...projections].sort((a,b)=>b.estimatedRemaining-a.estimatedRemaining)[0];
+ el('autoResult').textContent='Calcul automatique : solde '+money(balance)+' (9 000 MAD de départ + 2 000 MAD de revenus − 1 300 MAD de dépenses), charges non réglées '+money(fixed)+', dépenses variables futures estimées '+money(remaining)+'. Catégorie à surveiller : '+top.cat+' ('+money(top.estimatedRemaining)+' restants prévus). Les 180 MAD de charge déjà payée ne sont pas déduits une seconde fois.';
+ const expenseByCategory=new Map();
+ for(const t of demo.current.filter(x=>x.type==='expense'))expenseByCategory.set(t.category,(expenseByCategory.get(t.category)||0)+t.amount);
+ el('dashboardIncome').textContent=money(received);
+ el('dashboardExpense').textContent=money(spent);
+ el('dashboardFixed').textContent=money(fixed);
+ const total=Math.max(1,spent);
+ const bars=document.createDocumentFragment();
+ for(const [category,amount] of [...expenseByCategory].sort((a,b)=>b[1]-a[1])){
+  const line=document.createElement('div');line.className='barline';
+  const hd=document.createElement('div');hd.className='barhead';
+  const name=document.createElement('span');name.textContent=category;
+  const value=document.createElement('strong');value.textContent=money(amount);
+  hd.append(name,value);
+  const track=document.createElement('div');track.className='bartrack';
+  const fill=document.createElement('div');fill.className='barfill';fill.style.width=(amount/total*100).toFixed(1)+'%';
+  track.append(fill);line.append(hd,track);bars.append(line);
+ }
+ el('categoryBars').replaceChildren(bars);
+ const priority=projections.slice().sort((a,b)=>b.estimatedRemaining-a.estimatedRemaining)[0];
+ el('priorityTip').textContent='💡 Priorité proposée : surveiller '+priority.cat+'. Selon ce scénario fictif, les dépenses restantes de cette catégorie pourraient atteindre '+money(priority.estimatedRemaining)+'. Vérifie les besoins essentiels avant de réduire une catégorie.';
+ const details=document.createElement('ul');
+ for(const p of projections){const li=document.createElement('li');li.textContent=p.cat+' : '+money(p.current)+' déjà dépensés ; historique moyen '+money(p.historyAverage)+'/mois ; reste prévu '+money(p.estimatedRemaining);details.append(li)}
+ const li=document.createElement('li');li.textContent='Charges en attente : Loyer 2 200 MAD, Internet 300 MAD, Electricité 500 MAD. Abonnement 180 MAD déjà réglé : exclu des charges futures.';details.append(li);
+ el('demoDetail').replaceChildren(details);
+}
+el('autoFill').addEventListener('click',analyzeDemo);
+el('showDemo').addEventListener('click',()=>{el('demoDetail').hidden=!el('demoDetail').hidden;});
+
+
+
+/* Analyse locale facultative d'une sauvegarde exportée, jamais du localStorage v1.6. */
+let realData=null,realSnapshot=null;
+function validMonthKey(x){return typeof x==='string'&&/^\d{4}-(0[1-9]|1[0-2])$/.test(x);}
+function realMoney(n){return money(Math.round(n*100)/100);}
+function realSnapshotFor(month){
+ const tx=realData.transactions.filter(t=>t.date.startsWith(month));
+ const income=tx.filter(t=>t.type==='income').reduce((a,t)=>a+t.amount,0);
+ const expenses=tx.filter(t=>t.type==='expense').reduce((a,t)=>a+t.amount,0);
+ const categories=new Map();
+ for(const t of tx.filter(t=>t.type==='expense'))categories.set(t.category,(categories.get(t.category)||0)+t.amount);
+ const active=realData.recurring.filter(r=>r.active);
+ // An export does not specify when a recurring charge became applicable.
+ // For archived months, only explicit linked payments are known; never infer unpaid dues.
+ const currentMonth=new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0');
+ const historicalUnknown=month<currentMonth?active.filter(r=>!tx.some(t=>t.recurringId===r.id&&t.type==='expense')).length:0;
+ const outstanding=(month<currentMonth?[]:active.filter(r=>!tx.some(t=>t.recurringId===r.id&&t.type==='expense')));
+ const manualCandidates=outstanding.map(r=>({name:r.name,amount:r.amount,candidates:tx.filter(t=>t.type==='expense'&&!t.recurringId&&Math.abs(t.amount-r.amount)<.01&&(t.category===r.category||typeof t.description==='string'&&t.description.toLocaleLowerCase('fr').includes(r.name.toLocaleLowerCase('fr'))))})).filter(v=>v.candidates.length);
+ const unpaid=outstanding.reduce((a,r)=>a+r.amount,0);
+ const savings=realData.savings[month]?.saved||0,limit=realData.budgets[month];
+ return {month,income,expenses,net:income-expenses,savings,available:income-expenses-savings,unpaid,limit,categories:[...categories].sort((a,b)=>b[1]-a[1]),outstanding,manualCandidates,historicalUnknown,txCount:tx.length};
+}
+function previousMonthKey(month){
+ const y=Number(month.slice(0,4)),m=Number(month.slice(5,7));
+ return (m===1?y-1:y)+'-'+String(m===1?12:m-1).padStart(2,'0');
+}
+const protectedCategories=/factur|logement|sant[eé]|aliment|transport|assur|imp[oô]t|education|[eé]lectricit[eé]|eau|loyer/i;
+function advancedAnalysis(x){
+ const previous=realSnapshotFor(previousMonthKey(x.month));
+ const prevTx=previous.txCount;
+ const changes=x.categories.map(([cat,amount])=>{
+  const prev=previous.categories.find(([k])=>k===cat)?.[1]||0;
+  return {cat,amount,prev,delta:amount-prev,essential:protectedCategories.test(cat)};
+ }).sort((a,b)=>b.delta-a.delta);
+ const increases=changes.filter(c=>c.delta>0);
+ const optional=increases.filter(c=>!c.essential);
+ const monthComparison=prevTx?('Mois précédent : '+realMoney(previous.expenses)+' de dépenses. Écart enregistré : '+(x.expenses>=previous.expenses?'+':'−')+realMoney(Math.abs(x.expenses-previous.expenses))+'. Cette comparaison ne tient pas compte des opérations encore à venir.'):'Pas assez de données du mois précédent pour une comparaison fiable.';
+ const example=optional[0];
+ const savingsTip=example?'Piste facultative à examiner : '+example.cat+' ('+realMoney(example.amount)+' ce mois-ci, contre '+realMoney(example.prev)+' précédemment). Une réduction de 10 % représenterait '+realMoney(example.amount*.1)+' ; c’est un exemple, pas une économie garantie.':'Aucune hausse clairement facultative détectée. Évite de réduire aveuglément les dépenses essentielles.';
+ const warning=increases.filter(c=>c.delta>0&&c.prev>0&&c.delta/c.prev>=.3).slice(0,3);
+ return {monthComparison,savingsTip,warning,prevTx,previous};
+}
+function monthlyAutoPlan(x){
+ // Les paiements deja lies aux charges recurrentes sont inclus dans expenses.
+ // Les charges futures sont affichees separement et ne sont jamais soustraites deux fois.
+ const nominal=x.available-x.unpaid;
+ // Les paiements manuels ressemblants sont uniquement signales, pas marques automatiquement comme payes.
+ const essentialPattern=/factur|logement|sant[eé]|aliment|transport|assur|imp[oô]t|education|[eé]lectricit[eé]|eau|loyer/i;
+ const essentials=x.categories.filter(([k])=>essentialPattern.test(k)).reduce((a,[,v])=>a+v,0);
+ const optional=x.expenses-essentials;
+ const reserveIllustrative=Math.max(0,Math.round(x.income*.1));
+ const indicative=nominal-reserveIllustrative;
+ const hasFutureUnknown=true;
+ return {nominal,essentials,optional,reserveIllustrative,indicative,hasFutureUnknown};
+}
+function updateMonthlyPlan(x){
+ const p=monthlyAutoPlan(x),n=el('autoPlanResult');
+ n.className='status '+(p.nominal<0?'bad':'warn');
+ n.textContent='Pour '+x.month+' : revenus enregistrés '+realMoney(x.income)+' ; dépenses enregistrées '+realMoney(x.expenses)+' ; épargne déjà réservée '+realMoney(x.savings)+' ; charges actives sans paiement lié '+realMoney(x.unpaid)+'. Solde mensuel après épargne et ces charges éventuelles : '+realMoney(p.nominal)+'. Parmi les dépenses déjà effectuées, postes potentiellement essentiels : '+realMoney(p.essentials)+' ; autres catégories : '+realMoney(p.optional)+'. Exemple de réserve de précaution de 10 % des revenus du mois : '+realMoney(p.reserveIllustrative)+' (simple repère automatique, pas une obligation ni un prélèvement). Marge théorique après cette réserve : '+realMoney(p.indicative)+'. ATTENTION : ce n’est pas un budget réellement dépensable, car les dépenses futures et les paiements non liés aux charges récurrentes sont inconnus. Vérifie les factures et besoins essentiels restants avant tout achat facultatif.';
+}
+function forecastRemaining(x){
+ const targetEnd=new Date(Number(x.month.slice(0,4)),Number(x.month.slice(5,7)),0).getDate();
+ const now=new Date(),currentMonth=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+ const dates=x.month===currentMonth?Math.min(now.getDate(),targetEnd):x.month<currentMonth?targetEnd:0;
+ const daysRemaining=Math.max(0,targetEnd-dates);
+ // Only estimate when analyzing the current month; otherwise we cannot infer the relevant as-of day.
+ if(x.month!==currentMonth)return {ok:false,reason:'Prévision du reste du mois disponible uniquement pour le mois en cours. Pour les autres mois, le rapport reste rétrospectif.'};
+ if(daysRemaining===0)return {ok:false,reason:'Le mois est terminé : aucune dépense future à projeter pour ce mois.'};
+ const hist=[];
+ for(let offset=1;offset<=3;offset++){
+  const d=new Date(Number(x.month.slice(0,4)),Number(x.month.slice(5,7))-1-offset,1);
+  const key=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+  const snap=realSnapshotFor(key);
+  if(snap.txCount>0&&snap.categories.length>0)hist.push(snap);
+ }
+ if(hist.length<2)return {ok:false,reason:'Historique insuffisant : il faut au moins deux mois précédents avec des dépenses enregistrées pour estimer les dépenses variables restantes.'};
+ const variablePast=hist.map(m=>m.categories.filter(([cat])=>!protectedCategories.test(cat)).reduce((a,[,v])=>a+v,0));
+ const monthlyAverage=variablePast.reduce((a,b)=>a+b,0)/variablePast.length;
+ const projectedVariable=Math.round(monthlyAverage*daysRemaining/targetEnd);
+ const reserve=Math.round(Math.max(0,x.income)*.1);
+ const after=x.available-x.unpaid-projectedVariable-reserve;
+ return {ok:true,daysRemaining,months:hist.length,projectedVariable,reserve,after};
+}
+function updateForecastReal(x){
+ const n=el('forecastRealResult'),f=forecastRemaining(x);
+ n.className='status warn';
+ if(!f.ok){n.textContent=f.reason+' Aucune enveloppe quotidienne fiable n’est calculée.';return}
+ n.className='status '+(f.after<0?'bad':'warn');
+ n.textContent='Selon '+f.months+' mois précédents, dépenses facultatives futures estimées : '+realMoney(f.projectedVariable)+' pour '+f.daysRemaining+' jour(s) restants. Après dépenses enregistrées, épargne réservée, charges non marquées payées, cette estimation et un repère de précaution de '+realMoney(f.reserve)+', marge théorique : '+realMoney(f.after)+'. Enveloppe quotidienne théorique : '+realMoney(Math.max(0,f.after)/f.daysRemaining)+'. Attention : les dépenses essentielles futures non enregistrées et les revenus incertains ne sont pas prédits. Ne considère pas ces chiffres comme un budget garanti.';
+}
+function renderRealReconciliation(x){
+ const root=el('realReconcileResult');root.replaceChildren();
+ const tx=realData.transactions.filter(t=>t.date.startsWith(x.month)&&t.type==='expense');
+ const active=realData.recurring.filter(r=>r.active);
+ if(!active.length){root.textContent='Aucune charge récurrente active dans la sauvegarde.';return}
+ if(x.historicalUnknown){const note=document.createElement('p');note.className='muted';note.textContent='Mois historique : la sauvegarde ne contient pas les dates de début des charges récurrentes. L’absence de paiement lié ne prouve pas qu’une charge était due ce mois-là.';root.append(note)}
+ const links=new Map();
+ for(const t of tx){if(t.recurringId){const arr=links.get(t.recurringId)||[];arr.push(t);links.set(t.recurringId,arr)}}
+ const manual=tx.filter(t=>!t.recurringId);
+ const candidates=new Map();
+ for(const r of active){
+  for(const t of manual){
+   const outcome=rankManualCandidate(r,t);
+   if(outcome){const arr=candidates.get(t.id)||[];arr.push({r,outcome,t});candidates.set(t.id,arr)}
+  }
+ }
+ const ul=document.createElement('ul');
+ for(const r of active){
+  const explicit=links.get(r.id)||[];
+  const matches=[...candidates.values()].flat().filter(v=>v.r.id===r.id);
+  const item=document.createElement('li');
+  let label,detail;
+  if(explicit.length===1){
+   label='Payée (lien explicite)';
+   detail='Opération liée : '+realMoney(explicit[0].amount)+'. À comparer avec la facture attendue '+realMoney(r.amount)+'.';
+  }else if(explicit.length>1){
+   label='À vérifier';
+   detail=explicit.length+' opérations liées à la même charge : contrôle manuel requis.';
+  }else if(matches.length){
+   label='À vérifier';
+   detail=matches.map(v=>'Opération manuelle '+realMoney(v.t.amount)+' ; '+(v.outcome==='partiel possible'?'montant partiel et libellé similaire':'montant exact et catégorie/libellé similaire')+(candidates.get(v.t.id).length>1?' ; opération compatible avec plusieurs factures':'')).join(' | ')+'. Aucun paiement confirmé.';
+  }else{label='Non confirmé';detail='Aucun paiement lié ni candidat reconnu dans ce fichier.'}
+  item.textContent=r.name+' — '+label+' — '+detail;
+  ul.append(item);
+ }
+ root.append(ul);
+ const note=document.createElement('p');note.className='muted';note.textContent='Les opérations manuelles restent des suggestions de vérification. Une même opération compatible avec plusieurs charges n’est jamais attribuée automatiquement. Ne pas soustraire à nouveau une dépense déjà présente dans les opérations.';root.append(note);
+}
+function drawRealReport(){
+ if(!realData)return;
+ const month=el('realMonth').value;realSnapshot=realSnapshotFor(month);
+ const x=realSnapshot,root=el('realReport');root.replaceChildren();updateMonthlyPlan(x);updateForecastReal(x);renderRealReconciliation(x);el('quickIncome').textContent=realMoney(x.income);el('quickExpenses').textContent=realMoney(x.expenses);el('quickBalance').textContent=realMoney(x.available);el('quickCharges').textContent=realMoney(x.unpaid);el('quickContext').textContent='Sauvegarde analysée en lecture seule — '+month+'. Les charges non marquées payées peuvent nécessiter une vérification manuelle.';const issues=[];if(x.available<0)issues.push('Solde mensuel après épargne négatif.');if(x.limit!==undefined&&x.expenses>x.limit)issues.push('Plafond de dépenses dépassé de '+realMoney(x.expenses-x.limit)+'.');if(x.unpaid>0)issues.push('Charges récurrentes sans paiement lié : '+realMoney(x.unpaid)+'.');if(x.historicalUnknown)issues.push(x.historicalUnknown+' charge(s) récurrente(s) non vérifiables pour ce mois historique : date de début inconnue.');if(x.manualCandidates.length)issues.push('Paiements manuels similaires à des charges : vérification nécessaire.');const alertNode=el('homeAlerts');alertNode.className='status '+(issues.length?'warn':'good');alertNode.textContent=issues.length?'🔔 À examiner : '+issues.join(' '):'✓ Aucune alerte détectée dans les opérations du mois. Certaines dépenses futures peuvent manquer.';const optionalCategories=x.categories.filter(([cat])=>!protectedCategories.test(cat));el('coachHomeAdvice').textContent=x.available<0?'Attention : le solde mensuel après épargne est négatif. Vérifie les opérations et les besoins essentiels avant des achats supplémentaires.':optionalCategories.length?'Bilan '+month+' : '+realMoney(x.income)+' de revenus et '+realMoney(x.expenses)+' de dépenses. Vérifie d’abord les dépenses facultatives, en particulier '+optionalCategories[0][0]+'. Aucun montant futur n’est garanti.':'Bilan '+month+' : '+realMoney(x.income)+' de revenus et '+realMoney(x.expenses)+' de dépenses. Aucune catégorie facultative clairement identifiée : conserve une marge pour les besoins et factures à venir.';
+ const grid=document.createElement('div');grid.className='insight';
+ for(const [label,value] of [['Revenus',realMoney(x.income)],['Dépenses payées',realMoney(x.expenses)],['Solde après épargne',realMoney(x.available)]]){const d=document.createElement('div'),small=document.createElement('small'),strong=document.createElement('strong');small.textContent=label;strong.textContent=value;d.append(small,strong);grid.append(d)}
+ root.append(grid);
+ const info=document.createElement('p');info.className='muted';
+ info.textContent=x.txCount+' opération(s) · Charges actives non marquées payées : '+realMoney(x.unpaid)+' · Épargne réservée : '+realMoney(x.savings)+(x.limit===undefined?' · Aucun plafond mensuel défini.':' · Plafond des dépenses : '+realMoney(x.limit)+'.');
+ root.append(info);if(x.manualCandidates.length){const p=document.createElement('p');p.className='status warn';p.textContent='Paiements à vérifier : '+x.manualCandidates.map(r=>r.name+' ('+realMoney(r.amount)+')').join(', ')+'. Une opération manuelle similaire a été trouvée, mais aucun paiement n’est considéré comme confirmé automatiquement.';root.append(p)}
+ const caveat=document.createElement('p');caveat.className='muted';caveat.textContent='Attention : le solde mensuel est calculé à partir des seules opérations du mois, sans report automatique du solde bancaire antérieur. Les charges restantes sont indiquées séparément et ne sont pas déduites ici une seconde fois. Une charge réglée sans lien avec sa fiche récurrente peut apparaître comme non payée.';root.append(caveat);
+ const heading=document.createElement('h2');heading.textContent='Principaux postes de dépenses';root.append(heading);
+ if(!x.categories.length){const p=document.createElement('p');p.className='muted';p.textContent='Aucune dépense enregistrée pour ce mois.';root.append(p)}
+ for(const [name,value] of x.categories.slice(0,8)){const p=document.createElement('p');p.className='muted';p.textContent=name+' : '+realMoney(value)+' ('+(x.expenses?Math.round(100*value/x.expenses):0)+' % des dépenses)';root.append(p)}
+ const advice=document.createElement('div');advice.className='status '+(x.available<0||x.limit!==undefined&&x.expenses>x.limit?'warn':'good');
+ advice.textContent=x.available<0?'Solde mensuel négatif après épargne. Vérifie les revenus manquants, les opérations et les dépenses essentielles.':x.limit!==undefined&&x.expenses>x.limit?'Le plafond mensuel est dépassé de '+realMoney(x.expenses-x.limit)+'. Examine les dépenses modulables.':x.categories.length?(x.categories.every(([cat])=>protectedCategories.test(cat))?'Les dépenses enregistrées sont uniquement dans des catégories potentiellement essentielles. Aucune dépense facultative identifiée : vérifie les contrats et factures avant de chercher une économie.':'Premier poste enregistré : '+x.categories[0][0]+' ('+realMoney(x.categories[0][1])+'). Examine seulement les postes réellement facultatifs et vérifie les besoins essentiels.'):'Ajoute des opérations pour obtenir des conseils plus précis.';
+ root.append(advice);
+ const more=advancedAnalysis(x);
+ const advancedTitle=document.createElement('h2');advancedTitle.textContent='Analyse avancée';root.append(advancedTitle);
+ for(const msg of [more.monthComparison,more.savingsTip]){const p=document.createElement('p');p.className='muted';p.textContent=msg;root.append(p)}
+ if(more.warning.length&&more.prevTx){const p=document.createElement('p');p.className='status warn';p.textContent='Hausses à vérifier (par rapport au mois précédent) : '+more.warning.map(c=>c.cat+' +'+realMoney(c.delta)).join(' ; ')+'. Une hausse peut être ponctuelle ou liée au calendrier.';root.append(p)}
+ root.hidden=false;
+ el('realFeedback').textContent='Analyse locale active : '+month+'. Le Copilote répond maintenant sur ce mois quand tu lui poses une question.';
+ el('chatModeBadge').textContent='Analyse locale · '+month;el('chatModeDescription').textContent='Je réponds à partir de la sauvegarde JSON sélectionnée. Les calculs sont locaux, sans IA externe, et peuvent être incomplets.';const first=el('chatLog')?.firstElementChild;if(first&&first.classList.contains('bot'))first.textContent='Sauvegarde chargée pour '+month+'. Je peux présenter ton bilan, comparer les dépenses mensuelles et suggérer des pistes prudentes d’économies.';
+}
+function clearRealAnalysis(){
+ realData=null;realSnapshot=null;el('budgetFile').value='';el('chatModeBadge').textContent='Assistant de démonstration';el('chatModeDescription').textContent='Pose une question sur le scénario fictif. Les réponses sont calculées localement, sans service IA et sans envoi de données.';el('quickIncome').textContent='—';el('quickExpenses').textContent='—';el('quickBalance').textContent='—';el('quickCharges').textContent='—';el('quickContext').textContent='Charge une sauvegarde JSON pour afficher tes chiffres. Aucun accès automatique à la v1.6.';el('homeAlerts').className='status warn';el('homeAlerts').textContent='🔔 Charge une sauvegarde pour afficher les alertes liées à ton budget.';el('coachHomeAdvice').textContent='Charge ta sauvegarde JSON pour recevoir un bilan et un conseil fondés sur tes opérations. Les simulations du laboratoire restent fictives.';el('realReconcileResult').textContent='Charge une sauvegarde JSON et choisis un mois.';el('autoPlanResult').className='status warn';el('autoPlanResult').textContent='Charge une sauvegarde JSON dans « Analyse de ma sauvegarde » pour afficher le plan.';el('forecastRealResult').className='status warn';el('forecastRealResult').textContent='Charge une sauvegarde et sélectionne un mois pour calculer une prévision.';el('realMonth').replaceChildren();el('realMonth').disabled=true;el('realReport').replaceChildren();el('realReport').hidden=true;el('realFeedback').textContent='Analyse effacée de la mémoire de cette page. Les réponses du Copilote utilisent à nouveau le scénario fictif.';const first=el('chatLog')?.firstElementChild;if(first&&first.classList.contains('bot'))first.textContent="Bonjour ! Je peux expliquer les prévisions, le montant disponible, les économies possibles et les charges de ce scénario de démonstration. Commence par une question ci-dessus.";
+}
+el('clearReal').addEventListener('click',clearRealAnalysis);
+el('realMonth').addEventListener('change',drawRealReport);
+el('budgetFile').addEventListener('change',async e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ clearRealAnalysis();
+ try{
+ if(file.size>3000000)throw Error('Fichier trop volumineux (limite 3 Mo).');
+ const raw=JSON.parse(await file.text());
+ if(!raw||![1,2,3,4].includes(raw.version)||!Array.isArray(raw.transactions))throw Error('Sauvegarde Mon Budget DIGITAL non reconnue.');
+ if(raw.transactions.length>10000)throw Error('Trop d’opérations.');
+ const transactions=raw.transactions.map(t=>{
+  if(!t||typeof t.id!=='string'||!['income','expense'].includes(t.type)||!Number.isFinite(t.amount)||t.amount<=0||t.amount>=1e11||typeof t.date!=='string'||!/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(t.date)||typeof t.category!=='string')throw Error('Opération invalide dans la sauvegarde.');
+  return {id:t.id,type:t.type,amount:t.amount,date:t.date,category:t.category,recurringId:typeof t.recurringId==='string'?t.recurringId:null,description:typeof t.description==='string'?t.description.slice(0,100):''};
+ });
+ const recurring=Array.isArray(raw.recurring)?raw.recurring.map(r=>{
+  if(!r||typeof r.id!=='string'||typeof r.name!=='string'||!Number.isFinite(r.amount)||r.amount<=0||typeof r.active!=='boolean')throw Error('Charge récurrente invalide.');
+  return {id:r.id,name:r.name,amount:r.amount,active:r.active};
+ }):[];
+ const savings={};
+ for(const [k,v] of Object.entries(raw.savings||{})){if(validMonthKey(k)&&v&&Number.isFinite(v.saved)&&v.saved>=0)savings[k]={saved:v.saved}}
+ const budgets={};
+ for(const [k,v] of Object.entries(raw.budgets||{})){if(validMonthKey(k)&&Number.isFinite(v)&&v>=0)budgets[k]=v}
+ const months=[...new Set([...transactions.map(t=>t.date.slice(0,7)),...Object.keys(savings),...Object.keys(budgets)])].filter(validMonthKey).sort().reverse();
+ if(!months.length)throw Error('Aucun mois exploitable dans ce fichier.');
+ realData={transactions,recurring,savings,budgets};
+ for(const m of months){const opt=document.createElement('option');opt.value=m;opt.textContent=m;el('realMonth').append(opt)}
+ el('realMonth').disabled=false;drawRealReport();
+ }catch(error){clearRealAnalysis();el('realFeedback').textContent='Lecture impossible : '+error.message}
+});
+function answerRealQuestion(kind){
+ const x=realSnapshot;if(!x)return null;
+ const caveat=' Analyse basée uniquement sur les opérations du mois '+x.month+' ; ce n’est pas un solde bancaire cumulatif.';
+ const uncertain=(x.historicalUnknown?' Attention : '+x.historicalUnknown+' charge(s) sans paiement lié sont impossibles à qualifier pour ce mois historique (date de début inconnue).':'')+(x.manualCandidates.length?' Attention : '+x.manualCandidates.length+' charge(s) ont des opérations manuelles ressemblantes ; leur paiement doit être vérifié avant de considérer ces charges comme dues.':'');
+ switch(kind){
+ case 'prochaine_etape':return 'Pour préparer le mois suivant : 1) Contrôle les charges récurrentes et les factures qui ne figurent pas encore dans la sauvegarde. 2) Vérifie que les '+realMoney(x.savings)+' d’épargne réservée le sont réellement. 3) Avant un achat facultatif, garde une marge pour les besoins essentiels et les imprévus. Les '+realMoney(x.available)+' calculés pour '+x.month+' ne sont pas un solde bancaire garanti : les dépenses futures sont inconnues.'+caveat;
+ case 'suivi':return 'Pour '+x.month+', le montant après épargne ('+realMoney(x.available)+') vient de revenus '+realMoney(x.income)+' moins dépenses '+realMoney(x.expenses)+' et épargne '+realMoney(x.savings)+'. Vérifie en priorité les charges encore dues ('+realMoney(x.unpaid)+') et les achats essentiels futurs. Je ne peux pas confirmer ton solde bancaire réel ni prévoir des montants non enregistrés.'+caveat;
+ case 'conseils':{
+  const optional=x.categories.filter(([cat])=>!protectedCategories.test(cat));
+  const p=monthlyAutoPlan(x);
+  const risk=x.available<0?'Le solde mensuel après épargne est négatif.':x.manualCandidates.length?'Certains paiements manuels ressemblent à des charges fixes : vérifie les correspondances.':x.unpaid>0?'Des charges restent non marquées payées : '+realMoney(x.unpaid)+'.':'Aucune charge récurrente non payée détectée, mais des factures futures peuvent manquer.';
+  const action=optional.length?'Examine d’abord les dépenses réellement facultatives de '+optional[0][0]+' ('+realMoney(optional[0][1])+').':'Aucune dépense facultative clairement identifiée : n’essaie pas de réduire automatiquement les factures essentielles.';
+  return 'BILAN '+x.month+' : revenus '+realMoney(x.income)+', dépenses enregistrées '+realMoney(x.expenses)+', épargne réservée '+realMoney(x.savings)+', solde mensuel après épargne '+realMoney(x.available)+'.\nRISQUE À SURVEILLER : '+risk+'\nACTIONS RECOMMANDÉES : 1) Vérifie les charges et besoins essentiels restant à payer. 2) '+action+' 3) Conserve une marge de précaution avant tout achat. Le repère de 10 % des revenus ('+realMoney(p.reserveIllustrative)+') est illustratif, pas une somme déjà mise de côté. Les dépenses futures inconnues empêchent de calculer un montant réellement libre.'+uncertain+caveat;
+ }
+ case 'comparaison':{
+  const adv=advancedAnalysis(x);
+  return 'Comparaison entre '+previousMonthKey(x.month)+' et '+x.month+' : '+adv.monthComparison+' '+adv.savingsTip+' Les données du mois actuel peuvent être incomplètes.'+caveat;
+ }
+ case 'bilan':return 'Bilan du mois '+x.month+' : revenus '+realMoney(x.income)+', dépenses '+realMoney(x.expenses)+', solde mensuel '+realMoney(x.net)+', épargne réservée '+realMoney(x.savings)+', montant après épargne '+realMoney(x.available)+'. '+(x.limit===undefined?'Aucun plafond mensuel enregistré.':x.expenses>x.limit?'Plafond dépassé de '+realMoney(x.expenses-x.limit)+'.':'Plafond mensuel respecté.')+' Charges fixes non marquées payées : '+realMoney(x.unpaid)+'. '+(x.categories.length?'Plus gros poste : '+x.categories[0][0]+' ('+realMoney(x.categories[0][1])+'). ':'')+'Conseil : vérifie les factures essentielles et les charges à venir, puis fixe un montant prudent pour les achats facultatifs. La catégorie seule ne permet pas de qualifier une dépense comme évitable.'+caveat;
+ case 'charges':return 'Charges récurrentes actives sans paiement lié : '+realMoney(x.unpaid)+'. '+(x.outstanding.length?'Détail : '+x.outstanding.slice(0,8).map(r=>r.name+' ('+realMoney(r.amount)+')').join(', ')+'.':'Aucune charge active non réglée détectée.')+' Vérifie les paiements ajoutés manuellement, qui peuvent ne pas être reconnus.'+uncertain+caveat;
+ case 'economies':{
+  const adv=advancedAnalysis(x);
+  return 'Dépenses enregistrées : '+realMoney(x.expenses)+'. '+adv.monthComparison+' '+adv.savingsTip+(x.limit===undefined?' Aucun plafond mensuel défini.':x.expenses>x.limit?' Plafond dépassé de '+realMoney(x.expenses-x.limit)+'.':' Plafond respecté.')+caveat;
+ }
+
+ case 'plan':{const p=monthlyAutoPlan(x);return 'Plan mensuel automatique : revenus '+realMoney(x.income)+', dépenses déjà enregistrées '+realMoney(x.expenses)+', épargne réservée '+realMoney(x.savings)+', charges actives non marquées payées '+realMoney(x.unpaid)+'. Solde indicatif après ces éléments : '+realMoney(p.nominal)+'. Repère de précaution automatique de 10 % des revenus : '+realMoney(p.reserveIllustrative)+'. Marge théorique après ce repère : '+realMoney(p.indicative)+'. Ce montant n’est PAS un budget disponible garanti : les dépenses futures restent inconnues. Priorité aux charges et aux achats essentiels.'+caveat;}
+ case 'achat':return 'Pour évaluer un achat à partir de la sauvegarde, il manque le montant de l’achat et les dépenses futures prévues. Le solde mensuel après épargne enregistré est '+realMoney(x.available)+', avec '+realMoney(x.unpaid)+' de charges récurrentes possiblement encore dues. Je ne peux pas conclure que l’achat est sûr.'+caveat;
+ case 'seuil':{const f=forecastRemaining(x);return f.ok?'Enveloppe quotidienne théorique : '+realMoney(Math.max(0,f.after)/f.daysRemaining)+' sur '+f.daysRemaining+' jours, après une estimation partielle des dépenses futures. Ce n’est pas une autorisation de dépenser : certaines charges futures restent inconnues.'+caveat:'Je ne peux pas donner d’enveloppe quotidienne fiable : '+f.reason+caveat;}
+ case 'disponible':return 'Pour '+x.month+' : '+realMoney(x.income)+' de revenus − '+realMoney(x.expenses)+' de dépenses − '+realMoney(x.savings)+' d’épargne réservée = '+realMoney(x.available)+'. Les '+realMoney(x.unpaid)+' de charges non marquées payées sont montrées séparément.'+caveat;
+ default:return 'Je peux analyser le mois '+x.month+'. Pose une question sur le bilan, le disponible, les économies, les charges, ton plan mensuel ou un achat. Je ne suis pas encore une IA conversationnelle générative.';
+ }
+}
+
+function classifyQuestion(q){
+ const t=q.toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+ if(/compar|evolut|difference|versus|vs\b/.test(t))return 'comparaison';
+ if(/que (dois|devrais)[ -]?je faire (ensuite|maintenant)|quoi faire (ensuite|maintenant)|prochaine etape|par quoi commencer|et maintenant|et ensuite/.test(t))return 'prochaine_etape';
+ if(/pourquoi|explique|comment ca|plus de detail|precise|et ensuite|que faire ensuite/.test(t))return 'suivi';
+ if(/mieux gerer|gerer mon budget|gestion de mon budget|comment gerer|ameliorer mon budget|recommand|que (me )?conseill/.test(t))return 'conseils';
+ if(/bilan|synthese|resume|situation financiere|analyse (de |du |mon )?mois/.test(t))return 'bilan';
+ if(/charge|loyer|facture|abonnement|fixe/.test(t))return 'charges';
+ if(/par jour|quotidien|chaque jour|journalier/.test(t))return 'seuil';
+ if(/plan|organis|finir le mois|gerer mon mois|strategie/.test(t))return 'plan';
+ if(/econom|redui|conseil|amelior|depense.*trop/.test(t))return 'economies';
+ if(/achat|acheter|permettre|prix|raisonnable/.test(t))return 'achat';
+ if(/disponible|reste|fin de mois|prevision|solde|depenser|budget/.test(t))return 'disponible';
+ return 'autre';
+}
+function answerQuestion(kind){
+ if(realSnapshot)return answerRealQuestion(kind);
+ const balance=val('balance'),fixed=val('fixed'),saving=val('savings'),variable=val('variable'),future=val('income'),reserve=val('reserve'),purchase=val('purchase');
+ const free=balance+future-fixed-saving,forecast=free-variable,after=forecast-purchase;
+ const room=free-reserve, gap=Math.max(0,reserve-forecast);
+ const caution=' Les chiffres sont des simulations : vérifie tes opérations et les charges encore dues.';
+ switch(kind){
+ case 'prochaine_etape':return 'Dans le scénario fictif, commence par vérifier les charges, puis l’épargne et les besoins essentiels futurs. Charge une sauvegarde JSON pour obtenir des conseils fondés sur tes opérations.'+caution;
+ case 'suivi':return 'Je peux expliquer le scénario fictif, mais pour un suivi personnel charge une sauvegarde JSON.'+caution;
+ case 'conseils':return 'Pour améliorer ce scénario fictif : vérifie les charges restant à payer, protège l’épargne et la réserve, puis examine uniquement les dépenses facultatives. Les prévisions restent des hypothèses.'+caution;
+ case 'comparaison':return 'Le scénario fictif ne contient pas deux mois complets comparables. Charge une sauvegarde JSON pour effectuer une comparaison réelle.';
+ case 'bilan':return 'Bilan du scénario fictif : fonds de référence '+money(balance)+', charges à venir '+money(fixed)+', épargne à réserver '+money(saving)+', dépenses variables futures '+money(variable)+', prévision de fin de mois '+money(forecast)+'. Vérifie les montants et protège une réserve de '+money(reserve)+'.'+caution;
+ case 'charges':
+  return 'Les charges restant à payer dans ce scénario totalisent '+money(fixed)+'. '+(demoActive?'Dans la démonstration : loyer 2 200 MAD, Internet 300 MAD et électricité 500 MAD. L’abonnement de 180 MAD déjà payé n’est pas redéduit.':'Le détail n’est pas disponible tant que les opérations fictives ne sont pas analysées.')+caution;
+ case 'economies':
+  return 'Objectif : garder '+money(reserve)+' de réserve. Après les charges et l’épargne, il reste '+money(free)+'. Les dépenses variables prévues sont '+money(variable)+'. '+(gap>0?'Pour préserver la réserve, il faudrait réduire les dépenses prévues d’au moins '+money(gap)+' (ou disposer de revenus réellement confirmés). ':'Les hypothèses actuelles préservent la réserve. ')+(demoActive?'Commence par examiner les loisirs et les achats non essentiels ; ne réduis pas automatiquement les dépenses indispensables.':'Répertorie les dépenses non essentielles avant de les réduire.')+caution;
+ case 'achat':
+  return 'Prix envisagé : '+money(purchase)+'. Fin de mois sans achat : '+money(forecast)+'. Avec achat : '+money(after)+'. '+(after<0?'Il y aurait un déficit de '+money(-after)+' : mieux vaut reporter cet achat.':after<reserve?'La réserve de '+money(reserve)+' ne serait pas préservée. Envisage un achat moins cher ou reporte-le.':'La réserve resterait préservée selon les montants déclarés.')+caution;
+ case 'disponible':
+  return 'Calcul : '+money(balance)+' de solde + '+money(future)+' de revenus futurs confirmés − '+money(fixed)+' de charges non payées − '+money(saving)+' d’épargne à réserver = '+money(free)+' disponibles. Après '+money(variable)+' de dépenses variables prévues : '+money(forecast)+' en fin de mois. La réserve cible est de '+money(reserve)+'.'+caution;
+ case 'plan':
+  return 'Plan pour la fin du mois : 1) Mets de côté '+money(fixed)+' pour les charges restantes. 2) Réserve '+money(saving)+' pour ton épargne. 3) Garde '+money(reserve)+' de sécurité. 4) Le montant maximal pour les dépenses variables, sans toucher à cette réserve, est '+money(Math.max(0,room))+'. '+(room<0?'Attention : même sans nouvelle dépense variable, cette réserve ne serait pas couverte.':variable>room?'Tes prévisions dépassent cette enveloppe de '+money(variable-room)+'.':'Tes dépenses variables prévues restent dans cette enveloppe.')+caution;
+ case 'seuil':
+  return 'Ton enveloppe pour les dépenses variables, après charges, épargne et réserve, est '+money(Math.max(0,room))+'. Pour obtenir un plafond par jour fiable, il faut préciser combien de jours restent à couvrir ; le prototype ne connaît pas automatiquement la date du scénario choisi. '+(room<0?'La réserve n’est pas couverte avec les montants indiqués.':'Répartis cette enveloppe sur les jours restants et revois-la après chaque dépense.')+caution;
+ default:
+  return 'Je ne comprends pas encore cette demande. Essaie : « Combien me reste-t-il ? », « Où économiser ? », « Puis-je acheter ? », « Mon plan pour finir le mois » ou « Budget quotidien ». Je suis un assistant local fondé sur des règles, pas encore une IA générative.';
+ }
+}
+function postChat(text,kind){
+ const log=el('chatLog'),q=document.createElement('div'),a=document.createElement('div');
+ q.className='bubble user';q.textContent=text;a.className='bubble bot';a.textContent=answerQuestion(kind);
+ log.append(q,a);while(log.children.length>13)log.removeChild(log.firstChild);
+ a.scrollIntoView({block:'nearest',behavior:'smooth'});
+}
+el('homeChatForm').addEventListener('submit',event=>{
+ event.preventDefault();
+ const field=el('homeChatInput'),question=field.value.trim();
+ if(!question)return;
+ const response=answerQuestion(classifyQuestion(question));
+ el('homeChatResponse').textContent=response;
+ postChat(question,classifyQuestion(question));
+ field.value='';
+});
+for(const b of document.querySelectorAll('[data-ask]'))b.addEventListener('click',()=>postChat(b.textContent,b.dataset.ask));
+el('chatForm').addEventListener('submit',event=>{event.preventDefault();const field=el('chatInput'),q=field.value.trim();if(!q)return;postChat(q,classifyQuestion(q));field.value='';});
+
+
+function simulateNovember(){
+ // Date de référence fictive explicitement fixée au 1er novembre, pas la date réelle du téléphone.
+ const income=10000,spent=0,saving=500,unpaid=3000,reserve=1000;
+ const essentialsFuture=2000,variableFuture=1500;
+ const days=30;
+ const nominal=income-spent-saving-unpaid;
+ const projected=nominal-essentialsFuture-variableFuture-reserve;
+ return {income,spent,saving,unpaid,reserve,essentialsFuture,variableFuture,days,nominal,projected,daily:projected/days};
+}
+el('runNovTest').addEventListener('click',()=>{
+ const x=simulateNovember(),n=el('novTestResult');
+ n.className='status warn';
+ n.textContent='SIMULATION FICTIVE — 1er novembre 2026 : revenus supposés '+money(x.income)+', dépenses déjà payées '+money(x.spent)+', épargne réservée '+money(x.saving)+', charges futures '+money(x.unpaid)+', besoins essentiels futurs '+money(x.essentialsFuture)+', dépenses variables futures '+money(x.variableFuture)+', réserve de précaution '+money(x.reserve)+'. Marge simulée : '+money(x.projected)+'. Enveloppe théorique sur '+x.days+' jours : '+money(x.daily)+'/jour. ATTENTION : cette enveloppe dépend entièrement d’hypothèses fictives. Aucune donnée réelle n’est lue ou modifiée.';
+});
+
+
+const dynamicInitial={cash:10000,savings:500,fixed:3000,essential:2000,variable:1500,reserve:1000,days:30};
+let dynamicState={cash:dynamicInitial.cash,fixed:dynamicInitial.fixed,essential:dynamicInitial.essential,variable:dynamicInitial.variable,extra:0,spent:0,unexpectedPaid:0,history:[]};
+function updateDynamic(){
+ const d=dynamicState;
+ const dayRaw=Number(el('dynamicDay').value);
+ const day=Number.isInteger(dayRaw)&&dayRaw>=1&&dayRaw<=30?dayRaw:null;
+ const margin=d.cash-dynamicInitial.savings-d.fixed-d.essential-d.variable-dynamicInitial.reserve;
+ const daysRemaining=day===null?null:31-day;
+ const n=el('dynamicResult');
+ n.className='status '+(margin<0?'bad':'warn');
+ const daily=daysRemaining===null?'indisponible':money(margin/daysRemaining)+'/jour';
+ n.textContent='Scénario fictif : dépenses réglées '+money(d.spent)+' dont imprévus '+money(d.unexpectedPaid)+' ; charges restant à payer '+money(d.fixed)+' ; besoins essentiels futurs '+money(d.essential)+' ; dépenses variables futures '+money(d.variable)+'. Marge estimée : '+money(margin)+' ; enveloppe théorique sur '+(daysRemaining===null?'un nombre de jours invalide':daysRemaining+' jour(s)')+' : '+daily+'. Les montants déjà budgétés réduisent simultanément le solde et leur provision, sans double déduction ; les imprévus réduisent la marge. Rien n’est sauvegardé.';
+ const h=el('dynamicHistory');h.replaceChildren();
+ if(!d.history.length){h.textContent='Aucune dépense fictive ajoutée.';return}
+ const ul=document.createElement('ul');
+ for(const entry of d.history){const li=document.createElement('li');li.textContent=entry;ul.append(li)}
+ h.append(ul);
+}
+el('dynamicDay').addEventListener('input',updateDynamic);
+el('dynamicAdd').addEventListener('click',()=>{
+ const amount=Number(el('dynamicAmount').value),type=el('dynamicType').value;
+ if(!Number.isFinite(amount)||amount<=0||amount>99999){el('dynamicResult').textContent='Saisis un montant fictif valide entre 1 et 99 999 MAD.';return}
+ const d=dynamicState,available=type==='fixed'?d.fixed:type==='essential'?d.essential:type==='variable'?d.variable:Infinity;
+ if(amount>available){el('dynamicResult').className='status bad';el('dynamicResult').textContent='Dépassement refusé : provision restante '+money(available)+'. Choisis « Dépense imprévue » si tu veux simuler un achat supplémentaire, ou saisis un montant inférieur.';return}
+ d.cash-=amount;d.spent+=amount;if(type==='extra')d.unexpectedPaid+=amount;
+ if(type==='fixed')d.fixed-=amount;
+ else if(type==='essential')d.essential-=amount;
+ else if(type==='variable')d.variable-=amount;
+ // cash already falls for any unplanned expense; no extra liability should be subtracted.
+ d.history.push((type==='extra'?'Imprévu':type==='fixed'?'Charge fixe':type==='essential'?'Besoin essentiel':'Dépense variable')+' : '+money(amount));
+ updateDynamic();
+});
+el('dynamicReset').addEventListener('click',()=>{
+ dynamicState={cash:dynamicInitial.cash,fixed:dynamicInitial.fixed,essential:dynamicInitial.essential,variable:dynamicInitial.variable,extra:0,spent:0,history:[]};
+ updateDynamic();
+});
+updateDynamic();
+
+el('runMatchingTest').addEventListener('click',()=>{
+ const recurring={id:'fake-internet',name:'Internet',category:'Factures',amount:350,active:true};
+ const manual={type:'expense',amount:350,category:'Factures',description:'Internet',recurringId:null};
+ const potential=manual.type==='expense'&&!manual.recurringId&&Math.abs(manual.amount-recurring.amount)<.01&&(manual.category===recurring.category||manual.description.toLocaleLowerCase('fr').includes(recurring.name.toLocaleLowerCase('fr')));
+ const box=el('matchingResult');
+ box.className='status '+(potential?'warn':'bad');
+ box.textContent=potential?'TEST RÉUSSI : un paiement manuel de 350 MAD ressemble à la charge Internet de 350 MAD. Vérification nécessaire : aucun paiement n’est automatiquement confirmé, supprimé ou déduit deux fois.':'TEST ÉCHOUÉ : rapprochement attendu non détecté.';
+});
+
+
+function normalizeMatchLabel(v){return String(v||'').toLocaleLowerCase('fr').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,' ').trim();}
+function rankManualCandidate(r,t){
+ if(t.type!=='expense'||t.recurringId)return null;
+ const exactAmount=Math.abs(t.amount-r.amount)<.01;
+ const name=normalizeMatchLabel(r.name),description=normalizeMatchLabel(t.description),category=normalizeMatchLabel(t.category);
+ const nameMatches=!!name&&!!description&&(description===name||description.includes(name));
+ const categoryMatches=category===normalizeMatchLabel(r.category);
+ if(exactAmount&&(nameMatches||categoryMatches))return 'possible';
+ if(t.amount<r.amount&&nameMatches)return 'partiel possible';
+ return null;
+}
+function complexTest(kind){
+ const output=el('complexResult');output.className='status warn';
+ if(kind==='same'){
+  const charges=[{name:'Internet',category:'Factures',amount:350},{name:'Téléphone',category:'Factures',amount:350}];
+  const payment={type:'expense',amount:350,category:'Factures',description:'Paiement facture',recurringId:null};
+  const hits=charges.filter(r=>rankManualCandidate(r,payment));
+  output.textContent=hits.length===2?'TEST RÉUSSI — AMBIGUÏTÉ : deux factures de 350 MAD peuvent correspondre au même paiement manuel. Aucun règlement n’est confirmé automatiquement. Identifie la facture concernée avant toute action.':'TEST À REVOIR : ambiguïté non détectée.';
+ }else if(kind==='partial'){
+  const r={name:'Internet',category:'Factures',amount:350},t={type:'expense',amount:150,category:'Factures',description:'Internet',recurringId:null};
+  output.textContent=rankManualCandidate(r,t)==='partiel possible'?'TEST RÉUSSI — PAIEMENT PARTIEL POSSIBLE : 150 MAD ressemblent à un règlement d’une facture Internet de 350 MAD. Le solde potentiel de 200 MAD doit être vérifié ; aucune charge n’est modifiée.':'TEST À REVOIR : paiement partiel non repéré.';
+ }else{
+  const r={name:'Internet',category:'Factures',amount:350},t={type:'expense',amount:350,category:'Factures',description:'Prélèvement opérateur',recurringId:null};
+  output.textContent=rankManualCandidate(r,t)==='possible'?'TEST RÉUSSI — LIBELLÉ DIFFÉRENT : le montant et la catégorie suggèrent une correspondance, mais le libellé ne confirme rien. Vérification manuelle indispensable.':'TEST À REVOIR : correspondance possible non détectée.';
+ }
+}
+el('testSame').addEventListener('click',()=>complexTest('same'));
+el('testPartial').addEventListener('click',()=>complexTest('partial'));
+el('testLabel').addEventListener('click',()=>complexTest('label'));
+
+refresh();
+</script></body></html>
