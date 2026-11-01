@@ -268,7 +268,7 @@ function renderRealReconciliation(x){
   }else if(matches.length){
    label='À vérifier';
    detail=matches.map(v=>'Opération manuelle '+realMoney(v.t.amount)+' ; '+(v.outcome==='partiel possible'?'montant partiel et libellé similaire':'montant exact et catégorie/libellé similaire')+(candidates.get(v.t.id).length>1?' ; opération compatible avec plusieurs factures':'')).join(' | ')+'. Aucun paiement confirmé.';
-  }else{label='Non confirmé';detail='Aucun paiement lié ni candidat reconnu dans ce fichier.'}
+  }else if(x.historicalUnknown){label='Statut historique inconnu';detail='Aucun paiement lié retrouvé. La date de début de cette charge est inconnue : impossible de conclure qu’elle était due pour '+x.month+'.'}else{label='Non confirmé';detail='Aucun paiement lié ni candidat reconnu dans ce fichier.'}
   item.textContent=r.name+' — '+label+' — '+detail;
   ul.append(item);
  }
