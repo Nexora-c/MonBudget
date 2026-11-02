@@ -36,3 +36,17 @@
 .mbd-list-panel .transaction .txn-value{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;grid-area:amount!important;grid-column:1 / -1!important;grid-row:2!important;justify-self:stretch!important;align-self:start!important;white-space:nowrap!important;word-break:normal!important;overflow-wrap:normal!important;font-size:clamp(16px,4.5vw,21px)!important;line-height:1.35!important;letter-spacing:normal!important;}
 .mbd-list-panel .transaction .txn-actions{grid-area:actions!important;grid-column:1 / -1!important;grid-row:3!important;}
 @media(max-width:680px){.mbd-list-panel .transaction .txn-value{font-size:clamp(16px,4.5vw,20px)!important;}}
+
+/* v1.8 safe integration — read-only Copilot */
+.copilot-panel{margin-top:20px;background:#fff;border:1px solid #dcebf5;border-radius:24px;box-shadow:0 8px 24px #24577c0b}
+.copilot-alerts{display:grid;gap:9px;margin:4px 0 16px}
+.copilot-alert{border-radius:13px;padding:12px 14px;font-size:13px;line-height:1.5;border:1px solid #dcebf5;background:#f7fbfe;color:#365f79}
+.copilot-alert.ok{background:#f1fbf7;border-color:#d4ebdf;color:#27664f}
+.copilot-alert.warning{background:#fff9ed;border-color:#f2dfb6;color:#7a5b1f}
+.copilot-alert.danger{background:#fff3f1;border-color:#f0d0cb;color:#985149}
+.copilot-alert.info{background:#f2f8fc;border-color:#d8e9f4;color:#416d88}
+.copilot-quick-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.copilot-form{display:grid;gap:8px}.copilot-form label{font-size:13px;font-weight:700;color:#426b83}
+.copilot-entry{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px}.copilot-entry input{min-width:0;min-height:50px;border:1px solid #d0e2ee;border-radius:13px;background:#fafdff;color:#254e6a;padding:13px 14px;font-size:15px}.copilot-entry .primary{grid-column:auto;min-width:112px}
+.copilot-response{margin-top:14px;padding:15px;border-radius:15px;background:#eef7fd;color:#2f5f7c;line-height:1.65;font-size:13px;white-space:pre-line}
+@media(max-width:680px){.copilot-entry{grid-template-columns:1fr}.copilot-entry .primary{width:100%}.copilot-quick-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.copilot-quick-actions button{width:100%}}

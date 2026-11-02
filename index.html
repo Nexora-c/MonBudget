@@ -14,9 +14,9 @@
   <link rel="manifest" href="./manifest.webmanifest?v=4">
   <link rel="icon" type="image/svg+xml" href="./icons/icon-192.png?v=4">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png?v=4">
-  <link rel="stylesheet" href="./styles.css?v=1.6.8">
+  <link rel="stylesheet" href="./styles.css?v=1.8.0">
   <title>Mon Budget Digital — finances personnelles v1.6</title>
-  <script src="./app.js?v=1.6.8" defer></script>
+  <script src="./copilot.js?v=1.8.0" defer></script>\n  <script src="./app.js?v=1.8.0" defer></script>
 </head>
 <body>
   <div class="app-shell">
@@ -88,6 +88,22 @@
         </form>
         <p id="recurringMessage" role="status" aria-live="polite"></p>
         <div id="recurringList" class="recurring-list"></div>
+      </section>
+      <section class="panel copilot-panel" aria-label="MBD Copilote">
+        <div class="section-title compact"><h2>MBD Copilote</h2><span class="count">Lecture seule</span></div>
+        <p class="recurring-help">Analyse locale du mois affiché. Le Copilote lit les données déjà chargées mais ne les modifie jamais et n'utilise aucun service externe.</p>
+        <div id="copilotAlerts" class="copilot-alerts" aria-live="polite"></div>
+        <div class="copilot-quick-actions" role="group" aria-label="Questions rapides">
+          <button class="secondary" type="button" data-copilot-question="Fais-moi un bilan du mois">Bilan</button>
+          <button class="secondary" type="button" data-copilot-question="Combien puis-je dépenser ?">Disponible</button>
+          <button class="secondary" type="button" data-copilot-question="Quelles charges restent ?">Charges</button>
+          <button class="secondary" type="button" data-copilot-question="Que dois-je faire ensuite ?">Que faire ensuite ?</button>
+        </div>
+        <form id="copilotForm" class="copilot-form">
+          <label for="copilotInput">Posez une question sur le mois affiché</label>
+          <div class="copilot-entry"><input id="copilotInput" type="text" maxlength="180" autocomplete="off" placeholder="Ex. Où puis-je économiser ?"><button class="primary" type="submit">Analyser</button></div>
+        </form>
+        <div id="copilotResponse" class="copilot-response" aria-live="polite">Le Copilote est prêt. Ses réponses sont des calculs locaux et prudents, pas un solde bancaire garanti.</div>
       </section>
       <section class="panel transactions-panel mbd-list-panel"><div class="section-title compact"><h2>Opérations du mois</h2><span id="count" class="count"></span></div>
         <div id="transactions" class="transactions"></div>
