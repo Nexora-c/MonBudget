@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5fafe">
+  <meta name="description" content="Mon Budget Digital : revenus, dépenses, épargne et budgets personnels.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Mon Budget Digital">
+  
+  
+  
+  
+  <link rel="icon" type="image/svg+xml" href="../icons/icon-192.png?v=4">
+  <link rel="apple-touch-icon" href="../icons/apple-touch-icon.png?v=4">
+  <link rel="stylesheet" href="./styles.css?v=validation">
+  <title>Mon Budget Digital — validation Android v1.8</title>
+  <script src="./copilot.js?v=validation" defer></script>\n  <script src="./app.js?v=validation" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true"><img src="../icons/icon-192.png?v=4" alt=""></div>
+      <div><strong>Mon Budget <span class="brand-digital">DIGITAL</span></strong><small>Mes finances en toute simplicité</small></div>
+      <button class="icon-btn" id="installBtn" hidden type="button">Installer</button>
+    </header>
+    <main><div class="test-banner" role="status"><strong>VALIDATION v1.8 — DONNÉES FICTIVES</strong><p>Cette page est isolée de votre application officielle. Ne chargez pas de sauvegarde personnelle ici. Ne l’installez pas à la place de la v1.6.</p></div>
+      <section class="headline">
+        <div><p class="eyebrow">VUE D’ENSEMBLE</p><h1>Mon tableau de bord</h1></div>
+        <label class="month-wrap">Mois <input id="month" type="month" aria-label="Mois à afficher"></label>
+      </section>
+      <section class="hero mbd-cards" aria-label="Solde mensuel">
+  <div class="mbd-primary-card">
+    <span class="mbd-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="15" rx="3"/><path d="M3 9V5a2 2 0 0 1 2-2h13"/><path d="M15 12h6v5h-6a2 2 0 0 1 0-5Z"/><path d="M17 14.5h.01"/></svg></span>
+    <div class="mbd-card-content"><div class="hero-label">Disponible après épargne</div><div class="hero-value" id="availableBalance">0,00 MAD</div></div>
+  </div>
+  <div class="mbd-card-grid">
+    <div class="mbd-stat-card"><span class="mbd-card-icon balance-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v5c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 11v5c0 1.7 3.6 3 8 3s8-1.3 8-3v-5"/></svg></span><div class="mbd-card-content"><span>Solde avant épargne</span><strong id="balance">0,00 MAD</strong></div></div>
+    <div class="mbd-stat-card"><span class="mbd-card-icon saving-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></span><div class="mbd-card-content"><span>Épargne réservée</span><strong id="reservedSavings">0,00 MAD</strong></div></div>
+    <div class="mbd-stat-card"><span class="mbd-card-icon income-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 7-7 4 4 7-8"/><path d="M15 6h6v6"/></svg></span><div class="mbd-card-content"><span>Revenus</span><strong id="incomeTotal">0,00 MAD</strong></div></div>
+    <div class="mbd-stat-card"><span class="mbd-card-icon expense-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 7 7 7 4-4 7 8"/><path d="M15 18h6v-6"/></svg></span><div class="mbd-card-content"><span>Dépenses</span><strong id="expenseTotal">0,00 MAD</strong></div></div>
+  </div>
+</section>
+      <div class="section-title operation-title"><h2>Ajouter une opération</h2><span class="operation-subtitle">Enregistrez vos revenus et dépenses facilement</span></div>
+      <form id="transactionForm" class="panel form-grid operation-form">
+        <div class="segmented" role="group" aria-label="Type d'opération">
+          <label><input type="radio" name="type" value="expense" checked><span>↘ Dépense</span></label>
+          <label><input type="radio" name="type" value="income"><span>↗ Revenu</span></label>
+        </div>
+        <label>Montant (MAD)<input id="amount" name="amount" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="Ex. 150" required></label>
+        <label>Catégorie<select id="category" name="category" required></select></label>
+        <label>Description<input id="description" name="description" type="text" maxlength="100" placeholder="Ex. Courses du samedi"></label>
+        <label>Date<input id="date" name="date" type="date" required></label>
+        <button class="primary operation-submit" type="submit">+ Enregistrer l’opération</button>
+        <p id="formMessage" class="form-message" role="status" aria-live="polite"></p>
+      </form>
+      <section class="two-cols">
+        <div class="panel"><div class="section-title compact"><h2>Dépenses par catégorie</h2></div><div id="categoryChart" class="category-chart"></div></div>
+        <div class="panel finance-panel finance-budget"><div class="section-title compact finance-heading"><span class="finance-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="15" rx="3"/><path d="M3 9V5a2 2 0 0 1 2-2h13"/><path d="M16 13h5v5h-5a2.5 2.5 0 0 1 0-5Z"/></svg></span><h2>Budget mensuel</h2></div>
+          <form id="budgetForm" class="budget-form"><label>Plafond des dépenses (MAD)<input id="budgetAmount" min="0" step="0.01" type="number" inputmode="decimal" placeholder="Ex. 6000"></label><button type="submit" class="secondary">Enregistrer</button></form>
+          <div id="budgetStatus" class="budget-status"></div>
+        </div>
+      </section>
+      <section class="two-cols improvements">
+        <div class="panel finance-panel finance-savings"><div class="section-title compact finance-heading"><span class="finance-heading-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></span><h2>Objectif d’épargne</h2></div>
+          <p class="recurring-help">Indiquez votre objectif et le montant réservé ce mois-ci. Cette épargne est retirée du montant disponible affiché en haut, sans créer de dépense ni changer le solde comptable ou le budget de dépenses.</p>
+          <form id="savingsForm" class="budget-form">
+            <label>Objectif mensuel (MAD)<input id="savingsGoal" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 2000"></label>
+            <label>Montant mis de côté (MAD)<input id="savingsSaved" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Ex. 800"></label>
+            <button class="secondary" type="submit">Enregistrer mon épargne</button>
+          </form><p id="savingsMessage" class="form-message" role="status" aria-live="polite"></p><div id="savingsStatus" class="budget-status" aria-live="polite"></div>
+        </div>
+        <div class="panel"><div class="section-title compact"><h2>Statistiques du mois</h2></div>
+          <div id="monthlyStats" class="monthly-stats" aria-live="polite"></div>
+        </div>
+      </section>
+      <section class="panel" aria-label="Catégories personnalisées"><div class="section-title compact"><h2>Mes catégories personnalisées</h2></div><p class="recurring-help">Ajoutez une catégorie de revenus ou de dépenses. Retirer une catégorie ne supprime jamais les opérations déjà enregistrées.</p><form id="customCategoryForm" class="budget-form"><label>Type<select id="customCategoryType"><option value="expense">Dépense</option><option value="income">Revenu</option></select></label><label>Nom de la catégorie<input id="customCategoryName" maxlength="60" required placeholder="Ex. Animaux, Freelance"></label><button class="secondary" type="submit">Ajouter cette catégorie</button></form><div id="customCategoriesList"></div></section>
+      <section class="panel recurring-panel mbd-list-panel" aria-label="Charges fixes mensuelles">
+        <div class="section-title compact"><h2>Charges fixes mensuelles</h2><span class="count">Loyer, internet, crédits...</span></div>
+        <p class="recurring-help">Les charges planifiées ne sont pas déduites du solde tant que vous ne les marquez pas comme payées.</p>
+        <form id="recurringForm" class="form-grid">
+          <label>Nom de la charge<input id="recurringName" required maxlength="80" placeholder="Ex. Loyer"></label>
+          <label>Montant (MAD)<input id="recurringAmount" type="number" inputmode="decimal" step="0.01" min="0.01" required placeholder="Ex. 2800"></label>
+          <label>Catégorie<select id="recurringCategory"></select></label>
+          <label>Jour d'échéance (1 à 31)<input id="recurringDay" type="number" min="1" max="31" value="1" required></label>
+          <button class="primary" type="submit">+ Ajouter la charge fixe</button>
+        </form>
+        <p id="recurringMessage" role="status" aria-live="polite"></p>
+        <div id="recurringList" class="recurring-list"></div>
+      </section>
+      <section class="panel copilot-panel" aria-label="MBD Copilote">
+        <div class="section-title compact"><h2>MBD Copilote</h2><span class="count">Lecture seule</span></div>
+        <p class="recurring-help">Analyse locale du mois affiché. Le Copilote lit les données déjà chargées mais ne les modifie jamais et n'utilise aucun service externe.</p>
+        <div id="copilotAlerts" class="copilot-alerts" aria-live="polite"></div>
+        <div class="copilot-quick-actions" role="group" aria-label="Questions rapides">
+          <button class="secondary" type="button" data-copilot-question="Fais-moi un bilan du mois">Bilan</button>
+          <button class="secondary" type="button" data-copilot-question="Combien puis-je dépenser ?">Disponible</button>
+          <button class="secondary" type="button" data-copilot-question="Quelles charges restent ?">Charges</button>
+          <button class="secondary" type="button" data-copilot-question="Que dois-je faire ensuite ?">Que faire ensuite ?</button>
+        </div>
+        <form id="copilotForm" class="copilot-form">
+          <label for="copilotInput">Posez une question sur le mois affiché</label>
+          <div class="copilot-entry"><input id="copilotInput" type="text" maxlength="180" autocomplete="off" placeholder="Ex. Où puis-je économiser ?"><button class="primary" type="submit">Analyser</button></div>
+        </form>
+        <div id="copilotResponse" class="copilot-response" aria-live="polite">Le Copilote est prêt. Ses réponses sont des calculs locaux et prudents, pas un solde bancaire garanti.</div>
+      </section>
+      <section class="panel transactions-panel mbd-list-panel"><div class="section-title compact"><h2>Opérations du mois</h2><span id="count" class="count"></span></div>
+        <div id="transactions" class="transactions"></div>
+      </section>
+      <section class="panel settings"><div><h2>Mes données</h2><p>Les informations restent dans ce navigateur sur cet appareil. Exportez-les régulièrement pour conserver une sauvegarde.</p></div>
+        <div class="settings-actions"><button id="exportBtn" class="secondary" type="button">Exporter JSON</button><label class="secondary file-button" for="importFile">Importer JSON</label><input id="importFile" type="file" accept=".json,application/json" hidden><button id="clearBtn" class="danger" type="button">Effacer les données fictives</button></div>
+        <p id="dataMessage" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+    <footer>Mon Budget Digital • Gratuit • Sans compte • Vos données restent sur cet appareil</footer>
+  </div>
+</body>
+</html>
