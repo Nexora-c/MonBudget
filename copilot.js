@@ -104,7 +104,7 @@
     if(daysRemaining===0)return {ok:false,reason:'Le mois est terminé.'};
 
     const hist=[];
-    for(let offset=1;offset<=3;offset++){
+    for(let offset=0;offset<3;offset++){
       const snap=snapshot(data,previousMonthKey(x.month,offset),now);
       if(snap.txCount>0&&snap.categories.length>0)hist.push(snap);
     }
